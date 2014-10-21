@@ -10,7 +10,7 @@ library(plyr)
 
 # Load data:
 
-setwd('/Users/bsevans/Desktop/community')
+setwd('/Users/bsevans/Desktop/Community_analysis')
 
 p1 = read.csv('sampling_data/pc_2009.csv')      # Records 2009
 p2 = read.csv('sampling_data/pc_2010.csv')      # Records 2010   
@@ -317,4 +317,4 @@ pc[is.na(pc$d50),'d50'] = 0
 
 # Write file:
 
-write.csv(pc,'sampling_data/derived_data/pc_10_14.csv', row.names = F)
+write.csv(pc,'derived-data/pc_10_14.csv', row.names = F)
