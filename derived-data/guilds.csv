@@ -1,64 +1,1 @@
-"","species","common","foraging","trophic","nest","habitat","migratory"
-"1","ACFL","ACADIAN FLYCATCHER","hawks","insectivore","cup-tree","forest","nt"
-"2","AMCR","AMERICAN CROW","ground glean","omnivore","cup-tree","open","r"
-"3","AMGO","AMERICAN GOLDFINCH","foliage glean","granivore","cup-shrub","open","t"
-"4","AMRE","AMERICAN REDSTART","hover/glean","insectivore","cup-tree","forest","nt"
-"5","AMRO","AMERICAN ROBIN","ground glean","insct/om","cup-tree","open","t"
-"6","BAOR","BALTIMORE ORIOLE","foliage glean","insectivore","cup-tree","open","nt"
-"7","BARS","BARN SWALLOW","aerial foraging","insectivore","edif","open","nt"
-"8","BGGN","BLUE-GRAY GNATCATCHER","foliage glean","insectivore","cup-tree","forest","nt"
-"9","BHCO","BROWN-HEADED COWBIRD","ground glean","insectivore","cup-gen","open","r"
-"10","BLJA","BLUE JAY","ground glean","omnivore","cup-tree","forest","r"
-"11","BRTH","BROWN THRASHER","ground glean","omnivore","cup-shrub","scrub","t"
-"12","BWWA","BLUE-WINGED WARBLER","foliage glean","insectivore","ground","open","nt"
-"13","CACH","CAROLINA CHICKADEE","foliage glean","insectivore","cavity","forest","r"
-"14","CARW","CAROLINA WREN","ground glean","insectivore","cavity","open","r"
-"15","CHSP","CHIPPING SPARROW","ground glean","insct/om","cup-shrub","open","t"
-"16","COGR","COMMON GRACKLE","ground glean","omnivore","cup-tree","open","r"
-"17","COHA","COOPER'S HAWK","aerial pursuit","carnivore","cup-tree","forest","r"
-"18","COYE","COMMON YELLOWTHROAT","foliage glean","insectivore","cup-shrub","scrub","nt"
-"19","CSWA","CHESTNUT-SIDED WARBLER","foliage glean","insct/om","cup-shrub","open","nt"
-"20","DOWO","DOWNY WOODPECKER","bark glean","insectivore","cavity","forest","r"
-"21","EABL","EASTERN BLUEBIRD","hawks","insectivore","cavity","open","t"
-"22","EAKI","EASTERN KINGBIRD","hawks","insectivore","cup-tree","open","nt"
-"23","EAPH","EASTERN PHOEBE","hawks","insectivore","edif","open","t"
-"24","EATO","EASTERN TOWHEE","ground glean","insct/om","ground","scrub","t"
-"25","EAWP","EASTERN WOOD-PEWEE","hawks","insectivore","cup-tree","forest","nt"
-"26","ETTI","TUFTED TITMOUSE","foliage glean","insectivore","cavity","forest","r"
-"27","EUST","EUROPEAN STARLING","ground glean","insectivore","edif","open","r"
-"28","FICR","FISH CROW","ground glean","omnivore","cup-tree","water","r"
-"29","FISP","FIELD SPARROW","ground glean","insct/om","ground","scrub","r"
-"30","GCFL","GREAT-CRESTED FLYCATCHER","hawks","insectivore","cavity","open","nt"
-"31","GRCA","GRAY CATBIRD","ground glean","insct/om","cup-shrub","open","nt"
-"32","HAWO","HAIRY WOODPECKER","bark glean","insectivore","cavity","forest","r"
-"33","HOFI","HOUSE FINCH","ground glean","granivore","cup-shrub","open","r"
-"34","HOSP","HOUSE SPARROW","ground glean","insct/om","edif","open","r"
-"35","HOWA","HOODED WARBLER","foliage glean","insectivore","cup-shrub","forest","nt"
-"36","HOWR","HOUSE WREN","ground glean","insectivore","cavity","open","nt"
-"37","INBU","INDIGO BUNTING","ground glean","insct/om","cup-shrub","open","nt"
-"38","MODO","MOURNING DOVE","ground glean","granivore","cup-tree","open","r"
-"39","NOCA","NORTHERN CARDINAL","ground glean","insct/om","cup-shrub","open","r"
-"40","NOMO","NORTHERN MOCKINGBIRD","ground glean","insectivore","cup-shrub","open","r"
-"41","NOPA","NORTHERN PARULA","foliage glean","insectivore","cup-tree","forest","nt"
-"42","OROR","ORCHARD ORIOLE","foliage glean","insct/om","cup-tree","open","nt"
-"43","OVEN","OVENBIRD","ground glean","insectivore","ground","forest","nt"
-"44","PIWO","PILEATED WOODPECKER","bark glean","insectivore","cavity","forest","r"
-"45","PROW","PROTHONOTARY WARBLER","bark glean","insectivore","cavity","forest","nt"
-"46","PUMA","PURPLE MARTIN","aerial foraging","insectivore","cavity","water","nt"
-"47","RBNU","RED-BREASTED NUTHATCH","bark glean","insectivore","cavity","forest","t"
-"48","RBWO","RED-BELLIED WOODPECKER","bark glean","insectivore","cavity","forest","r"
-"49","REVI","RED-EYED VIREO","hover/glean","insectivore","cup-tree","forest","nt"
-"50","ROPI","ROCK PIGEON","ground glean","granivore","edif","open","r"
-"51","RSHA","RED-SHOULDERED HAWK","low patrol","carnivore","cup-tree","forest","t"
-"52","RTHU","RUBY-THROATED HUMMINGBIRD","hover/glean","nectarivore","cup-tree","open","nt"
-"53","RWBL","RED-WINGED BLACKBIRD","ground glean","insectivore","cup-shrub","water","r"
-"54","SCTA","SCARLET TANAGER","hover/glean","insectivore","cup-tree","forest","nt"
-"55","SOSP","SONG SPARROW","ground glean","insct/om","cup-shrub","open","r"
-"56","SSHA","SHARP-SHINNED HAWK","aerial pursuit","carnivore","cup-tree","forest","r"
-"57","WAVI","WARBLING VIREO","foliage glean","insectivore","cup-tree","open","nt"
-"58","WBNU","WHITE-BREASTED NUTHATCH","bark glean","insectivore","cavity","forest","r"
-"59","WEWA","WORM-EATING WARBLER","foliage glean","insectivore","ground","forest","nt"
-"60","WOTH","WOOD THRUSH","ground glean","insectivore","cup-tree","forest","nt"
-"61","YBCH","YELLOW-BREASTED CHAT","foliage glean","insct/om","cup-shrub","scrub","nt"
-"62","YBCU","YELLOW-BILLED CUCKOO","foliage glean","insectivore","cup-tree","open","nt"
-"63","YSFL","YELLOW-SHAFTED FLICKER","ground glean","insectivore","cavity","open","r"
+species,common,foraging,trophic,nest,habitat,migratoryACFL,ACADIAN FLYCATCHER,aerial,insectivore,cup-tree,forest,ntAMCR,AMERICAN CROW,ground,omnivore,cup-tree,open,rAMGO,AMERICAN GOLDFINCH,foliage,granivore,cup-shrub,open,tAMRE,AMERICAN REDSTART,aerial,insectivore,cup-tree,forest,ntAMRO,AMERICAN ROBIN,ground,insct/om,cup-tree,open,tBAOR,BALTIMORE ORIOLE,foliage,insct/om,cup-tree,open,ntBARS,BARN SWALLOW,aerial,insectivore,edif,open,ntBGGN,BLUE-GRAY GNATCATCHER,foliage,insectivore,cup-tree,forest,ntBHCO,BROWN-HEADED COWBIRD,ground,insectivore,cup-gen,open,rBLJA,BLUE JAY,ground,omnivore,cup-tree,forest,rBRTH,BROWN THRASHER,ground,omnivore,cup-shrub,scrub,tBWWA,BLUE-WINGED WARBLER,foliage,insectivore,ground,open,ntCACH,CAROLINA CHICKADEE,foliage,insectivore,cavity,forest,rCARW,CAROLINA WREN,ground,insectivore,cavity,open,rCEDW,CEDAR WAXWING,foliage,frugivore,cup-tree,open,tCHSP,CHIPPING SPARROW,ground,insct/om,cup-shrub,open,tCOGR,COMMON GRACKLE,ground,omnivore,cup-tree,open,rCOHA,COOPER'S HAWK,aerial,carnivore,cup-tree,forest,rCOYE,COMMON YELLOWTHROAT,foliage,insectivore,cup-shrub,scrub,ntCSWA,CHESTNUT-SIDED WARBLER,foliage,insct/om,cup-shrub,open,ntDOWO,DOWNY WOODPECKER,bark,insectivore,cavity,forest,rEABL,EASTERN BLUEBIRD,hawks,insectivore,cavity,open,tEAKI,EASTERN KINGBIRD,hawks,insectivore,cup-tree,open,ntEAPH,EASTERN PHOEBE,hawks,insectivore,edif,open,tEATO,EASTERN TOWHEE,ground,insct/om,ground,scrub,tEAWP,EASTERN WOOD-PEWEE,hawks,insectivore,cup-tree,forest,ntETTI,TUFTED TITMOUSE,foliage,insectivore,cavity,forest,rEUST,EUROPEAN STARLING,ground,omnivore,edif,open,rFICR,FISH CROW,ground,omnivore,cup-tree,water,rFISP,FIELD SPARROW,ground,insct/om,ground,scrub,rGCFL,GREAT-CRESTED FLYCATCHER,hawks,insectivore,cavity,open,ntGRCA,GRAY CATBIRD,ground,insct/om,cup-shrub,open,ntHAWO,HAIRY WOODPECKER,bark,insectivore,cavity,forest,rHOFI,HOUSE FINCH,ground,granivore,cup-shrub,open,rHOSP,HOUSE SPARROW,ground,omnivore,edif,open,rHOWA,HOODED WARBLER,foliage,insectivore,cup-shrub,forest,ntHOWR,HOUSE WREN,ground,insectivore,cavity,open,ntINBU,INDIGO BUNTING,ground,insct/om,cup-shrub,open,ntMODO,MOURNING DOVE,ground,granivore,cup-tree,open,rNOCA,NORTHERN CARDINAL,ground,insct/om,cup-shrub,open,rNOMO,NORTHERN MOCKINGBIRD,ground,insectivore,cup-shrub,open,rNOPA,NORTHERN PARULA,foliage,insectivore,cup-tree,forest,ntOROR,ORCHARD ORIOLE,foliage,insct/om,cup-tree,open,ntOVEN,OVENBIRD,ground,insectivore,ground,forest,ntPIWO,PILEATED WOODPECKER,bark,insectivore,cavity,forest,rPROW,PROTHONOTARY WARBLER,bark,insectivore,cavity,forest,ntPUMA,PURPLE MARTIN,aerial,insectivore,cavity,water,ntRBNU,RED-BREASTED NUTHATCH,bark,insectivore,cavity,forest,tRBWO,RED-BELLIED WOODPECKER,bark,insectivore,cavity,forest,rREVI,RED-EYED VIREO,aerial,insectivore,cup-tree,forest,ntROPI,ROCK PIGEON,ground,omnivore,edif,open,rRSHA,RED-SHOULDERED HAWK,aerial,carnivore,cup-tree,forest,tRTHU,RUBY-THROATED HUMMINGBIRD,aerial,nectarivore,cup-tree,open,ntRWBL,RED-WINGED BLACKBIRD,ground,insectivore,cup-shrub,water,rSCTA,SCARLET TANAGER,aerial,insectivore,cup-tree,forest,ntSOSP,SONG SPARROW,ground,insct/om,cup-shrub,open,rSSHA,SHARP-SHINNED HAWK,aerial,carnivore,cup-tree,forest,rWAVI,WARBLING VIREO,foliage,insectivore,cup-tree,open,ntWBNU,WHITE-BREASTED NUTHATCH,bark,insectivore,cavity,forest,rWEWA,WORM-EATING WARBLER,foliage,insectivore,ground,forest,ntWOTH,WOOD THRUSH,ground,insectivore,cup-tree,forest,ntYBCH,YELLOW-BREASTED CHAT,foliage,insct/om,cup-shrub,scrub,ntYBCU,YELLOW-BILLED CUCKOO,foliage,insectivore,cup-tree,open,ntYSFL,YELLOW-SHAFTED FLICKER,bark,insectivore,cavity,open,r
