@@ -124,6 +124,8 @@ pc$Species = gsub('carw\n','carw',pc$Species) # I have no idea what this notatio
 
 pc$Species = gsub('cawr','carw',pc$Species) # CARW typo
 
+pc$Species = gsub('cewa','cedw',pc$Species) # Cedar waxwing
+
 pc = pc[pc$Species!='chwv',] # I have no idea what species this refers to
 
 pc$Species = gsub('cogr\n','cogr',pc$Species) # Common grackle
