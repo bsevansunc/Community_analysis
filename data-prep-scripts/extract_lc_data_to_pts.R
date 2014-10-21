@@ -64,25 +64,24 @@ can.utm = projectRaster(can, imp1)
 
 imp.utm = projectRaster(imp, imp1)
 
+# I need to get rid of the water in can.utm (set as NA using the NA's in imp):
+
+can.utm = mask(can.utm, imp.utm)
+
 # Stack the rasters:
 
 lc.stack = stack(can.utm,imp.utm)
+  names(lc.stack) = c('can','imp')
 
-# # Extract land cover to points 
-# 
-# pts.can = extract(can.utm, pts, buffer = 100, fun = mean, na.rm = T)
-# 
-# pts.imp = extract(imp.utm, pts, buffer = 100, fun = mean, na.rm = T)
-# 
-# # Convert from spatial to a regular data frame:
-# 
-# pts = data.frame(pts.can)
-# 
 # pts$imp = pts.imp[,2]
 
 # Extract the raster stack to the points:
 
 pts.lc = extract(lc.stack, pts, buffer = 100, fun = mean, na.rm = T)
+
+# Bind with the points file:
+
+pts.lc = cbind(data.frame(pts), pts.lc)
 
 # Write to file:
 
