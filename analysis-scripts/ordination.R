@@ -9,12 +9,11 @@ library(reshape)
 
 # Get data:
 
-setwd('/Users/bsevans/Desktop/community')
+setwd('~/Community_analysis')
 
-pc = read.csv('sampling_data/derived_data/pc_10_14.csv')
-g = read.csv('sampling_data/derived_data/guilds2.csv')
-lc = read.csv('spatial_data/pts_lc.csv')
-  names(lc)[1] = 'site'
+pc = read.csv('derived-data/pc_10_14.csv')
+g = read.csv('derived-data/guilds.csv')
+lc = read.csv('derived-data/pts_lc100.csv')
 
 #--------------------------------------------------------------------------------*
 # ---- PREPARE DATA FOR ANALYSIS ----
@@ -73,7 +72,7 @@ lc = lc1
 #================================================================================*
 
 mod1 = metaMDS(pc)
-e1 = envfit(mod1~imp500, data=lc)
+e1 = envfit(mod1~imp, data=lc)
 
 plot(mod1, type ='n')
 points(mod1, display = "sites", cex = 0.5, pch=19, col="red")
@@ -86,7 +85,7 @@ lc$lc.hi = lc$lc23+lc$lc24
 
 ord <- cca(pc ~ lc.li+lc.hi+lc.forest+lc.ag, data=lc)
 
-ord2 <- cca(pc ~ imp500+can500, data=lc)
+ord2 <- cca(pc ~ imp+can, data=lc)
 
 # Exploring output
 
@@ -161,7 +160,7 @@ ord2
 plot(ord2, type = "n")
 points(ord2, display = "sites", cex = 0.5, pch=19, col="red")
 text(ord2, display = "spec", cex=0.7, col="darkgreen")
-ord2.fit <- envfit(ord2 ~ imp500+can500, data=lc, perm=1000)
+ord2.fit <- envfit(ord2 ~ imp+can, data=lc, perm=1000)
 plot(ord2.fit)
 
 # Upper left quadrant, high can, low imp:
@@ -195,18 +194,19 @@ anova(ord2)
 ord2 # Ack! 0.0559!
 
 
-ord2.imp <- cca(pc ~ imp500, data=lc)
+ord2.imp <- cca(pc ~ imp, data=lc)
 
-ord2.can <- cca(pc ~ can500, data=lc)
+ord2.can <- cca(pc ~ can, data=lc)
 
 #--------------------------------------------------------------------------------*
 # ---- ORDINATION, GUILDS ----
 #================================================================================*
 
-pc = read.csv('sampling_data/derived_data/pc_10_14.csv')
+pc = read.csv('derived-data/pc_10_14.csv')
 g$species = tolower(g$species)
 
 pcg = merge(pc,g, all = F)
+
 
 #### Prepare count frame ----
 
@@ -224,12 +224,16 @@ pcg.troph = pcg
 pcg.nest = pcg
 pcg.migr = pcg
 
+pcg$trophic = paste(pcg.troph$foraging, pcg.troph$trophic, sep='-')
+
+
 trophic = aggregate(pcg$counts,by = list(pcg$site,pcg$year,pcg$trophic),sum)
   names(trophic) = c('site','year','guild','count')
 nest = aggregate(pcg$counts,by = list(pcg$site,pcg$year,pcg$nest),sum)
 names(nest) = c('site','year','guild','count')
 mig = aggregate(pcg$counts,by = list(pcg$site,pcg$year,pcg$migratory),sum)
 names(mig) = c('site','year','guild','count')
+
 
 # Function to prepare count frames
 
@@ -269,14 +273,27 @@ text(ord.troph, display = "spec", cex=0.7, col="darkgreen")
 text(ord.nest, display = "spec", cex=0.7, col="red")
 text(ord.mig, display = "spec", cex=0.7, col="blue")
 
-ord2.troph <- cca(trophic ~ imp500 + can500, data=lc)
-ord2.nest <- cca(nest ~ imp500 + can500, data=lc)
-ord2.mig <- cca(mig ~ imp500 + can500, data=lc)
+ord2.troph <- cca(trophic ~ imp + can, data=lc)
+ord2.nest <- cca(nest ~ imp + can, data=lc)
+ord2.mig <- cca(mig ~ imp + can, data=lc)
 
-plot(ord2.troph, type = "n",xlim = c(-.75,.75),ylim = c(-.75,.75))
-ord2.fit = envfit(ord2 ~ imp500 + can500, data=lc, perm=1000)
-plot(ord2.fit, col =1)
-text(ord2.troph, display = "spec", cex=0.7, col="darkgreen")
+w = 2 # w stands for window
+
+ord = cca(trophic)
+plot(ord, type = "n",xlim = c(-w,w),ylim = c(-w,w))
+ord.env = envfit(ord2 ~ imp + can, data=lc, perm=1000)
+plot(ord.env, col =1)
+
+
+head(lc)
+
+urb = factor(ifelse(lc$imp < 5,'R',ifelse(lc$imp>60,'U','S')))
+ordispider(ord, urb, col = 'blue')
+points(ord, display = "sites", cex = 0.5, pch=19, col="red")
+
+text(ord, display = "spec", cex=0.7, col="darkgreen")
+
+text(ord2, display = "spec", cex=0.7, col="blue")
 text(ord2.nest, display = "spec", cex=0.7, col="red")
 text(ord2.mig, display = "spec", cex=0.7, col="blue")
 
@@ -306,19 +323,21 @@ ord.nest.no.forest
 ord.nest.no.ag = cca(nest~ lc.hi+lc.li+lc.forest, data=lc)
 ord.nest.no.ag
 
-ord2.troph.no.imp = cca(trophic~ can500, data=lc)
-ord2.troph.no.can = cca(trophic~ imp500, data=lc)
+ord2.troph.no.imp = cca(trophic~ can, data=lc)
+ord2.troph.no.can = cca(trophic~ imp, data=lc)
+
+ord2.troph
 ord2.troph.no.imp
 ord2.troph.no.can
 
-ord2.nest.no.imp = cca(nest~ can500, data=lc)
-ord2.nest.no.can = cca(nest~ imp500, data=lc)
+ord2.nest.no.imp = cca(nest~ can, data=lc)
+ord2.nest.no.can = cca(nest~ imp, data=lc)
 ord2.nest.no.imp
 ord2.nest.no.can
 
 
 plot(ord2.troph, type = "n",xlim = c(-.75,.75),ylim = c(-.75,.75))
-ord2.fit = envfit(ord2 ~ imp500 + can500, data=lc, perm=1000)
+ord2.fit = envfit(ord2 ~ imp + can, data=lc, perm=1000)
 plot(ord2.fit, col =1)
 text(ord2.troph, display = "spec", cex=0.7, col="darkgreen")
 text(ord2.nest, display = "spec", cex=0.7, col="red")
