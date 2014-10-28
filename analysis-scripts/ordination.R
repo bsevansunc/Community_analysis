@@ -79,6 +79,8 @@ for(i in 1:dim(pc2)[2]){
   pc2[,i] = log(1+pc2[,i])
 }
 
+pc = pc2
+
 #--------------------------------------------------------------------------------*
 # ---- ORDINATION BY SPECIES ----
 #================================================================================*
@@ -123,11 +125,11 @@ anova(ord2)
 
 # Explained variance
 
-ord2 # Ack! 0.0719!
+ord2 # Ack! 0.076!
 
-ord2.imp <- cca(pc ~ imp, data=lc) # .049 ... can explains .0229 that imp does not
+cca(pc ~ imp, data=lc) # .0496 ... can explains .0264 that imp does not
 
-ord2.can <- cca(pc ~ can, data=lc) # .0451 ... imp explains .0268 that can does not
+cca(pc ~ can, data=lc) # .0466 ... imp explains .0294 that can does not
 
 #--------------------------------------------------------------------------------*
 # ---- ORDINATION BY GUILD ----
