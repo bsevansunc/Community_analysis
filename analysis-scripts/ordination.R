@@ -68,90 +68,22 @@ lc1 = merge(lc, pc.sites, all = F, incomparables = NA)
 lc = lc1
 
 #--------------------------------------------------------------------------------*
-# ---- ORDINATION ----
+# ---- Log-transform count data ----
 #================================================================================*
 
-mod1 = metaMDS(pc)
-e1 = envfit(mod1~imp, data=lc)
+head(pc)
 
-plot(mod1, type ='n')
-points(mod1, display = "sites", cex = 0.5, pch=19, col="red")
-plot(e1)
+pc2 = pc[,-53]
 
+for(i in 1:dim(pc2)[2]){
+  pc2[,i] = log(1+pc2[,i])
+}
 
-lc$lc.li = lc$lc21+lc$lc22
-lc$lc.hi = lc$lc23+lc$lc24
-
-
-ord <- cca(pc ~ lc.li+lc.hi+lc.forest+lc.ag, data=lc)
+#--------------------------------------------------------------------------------*
+# ---- ORDINATION BY SPECIES ----
+#================================================================================*
 
 ord2 <- cca(pc ~ imp+can, data=lc)
-
-# Exploring output
-
-plot(ord, type = "n")
-points(ord, display = "sites", cex = 0.5, pch=19, col="red")
-text(ord, display = "spec", cex=0.7, col="darkgreen")
-ord.fit <- envfit(ord ~ lc.li+lc.hi+lc.forest+lc.ag, data=lc, perm=1000)
-plot(ord.fit)
-
-# Plot again, zooming on center region:
-plot(ord, type = "n", xlim = c(-2,2),ylim = c(-2,2))
-points(ord, display = "sites", cex = 0.5, pch=19, col="red")
-text(ord, display = "spec", cex=0.7, col="darkgreen")
-ord.fit <- envfit(ord ~ lc.li+lc.hi+lc.forest+lc.ag, data=lc, perm=1000)
-plot(ord.fit)
-
-# High intensity:
-plot(ord, type = "n", xlim = c(0,2),ylim = c(0,2))
-points(ord, display = "sites", cex = 0.5, pch=19, col="red")
-text(ord, display = "spec", cex=0.7, col="darkgreen")
-
-# Low intensity:
-plot(ord, type = "n", xlim = c(0,2),ylim = c(-2,0))
-points(ord, display = "sites", cex = 0.5, pch=19, col="red")
-text(ord, display = "spec", cex=0.7, col="darkgreen")
-
-# AG:
-plot(ord, type = "n", xlim = c(-2,0),ylim = c(0,2))
-points(ord, display = "sites", cex = 0.5, pch=19, col="red")
-text(ord, display = "spec", cex=0.7, col="darkgreen")
-
-# Forest:
-plot(ord, type = "n", xlim = c(-2,0),ylim = c(-2,0))
-points(ord, display = "sites", cex = 0.5, pch=19, col="red")
-text(ord, display = "spec", cex=0.7, col="darkgreen")
-
-# Output
-anova(ord)
-
-# Explained variance:
-
-ord
-
-#Ugh! Only 8%
-
-# Partitioning:
-
-ord.no.lc.hi = cca(pc ~ lc.li+lc.forest+lc.ag, data=lc)
-ord.no.lc.hi
-ord.only.lc.hi = cca(pc ~ lc.hi, data=lc)
-ord.only.lc.hi
-
-ord.no.lc.li = cca(pc ~ lc.hi+lc.forest+lc.ag, data=lc)
-ord.no.lc.li
-ord.only.lc.li = cca(pc ~ lc.li, data=lc)
-ord.only.lc.li
-
-ord.no.for = cca(pc ~ lc.hi+lc.li+lc.ag, data=lc)
-ord.no.for
-ord.only.for = cca(pc ~ lc.forest, data=lc)
-ord.only.for
-
-ord.no.ag = cca(pc ~ lc.hi+lc.li+lc.forest, data=lc)
-ord.no.ag
-ord.only.ag = cca(pc ~ lc.ag, data=lc)
-ord.only.ag
 
 # Ordination of imp and can only
 
@@ -181,9 +113,9 @@ plot(ord2, type = "n", xlim = c(0,1),ylim = c(0,.5))
 points(ord2, display = "sites", cex = 0.5, pch=19, col="red")
 text(ord2, display = "spec", cex=0.7, col="darkgreen")
 
-# Lower right quadrant, "high" can, high imp:
+# Lower right quadrant, low can, high imp:
 
-plot(ord2, type = "n", xlim = c(0,3),ylim = c(-1,0))
+plot(ord2, type = "n", xlim = c(0,5),ylim = c(-1,0))
 points(ord2, display = "sites", cex = 0.5, pch=19, col="red")
 text(ord2, display = "spec", cex=0.7, col="darkgreen")
 
@@ -191,15 +123,14 @@ anova(ord2)
 
 # Explained variance
 
-ord2 # Ack! 0.0559!
+ord2 # Ack! 0.0719!
 
+ord2.imp <- cca(pc ~ imp, data=lc) # .049 ... can explains .0229 that imp does not
 
-ord2.imp <- cca(pc ~ imp, data=lc)
-
-ord2.can <- cca(pc ~ can, data=lc)
+ord2.can <- cca(pc ~ can, data=lc) # .0451 ... imp explains .0268 that can does not
 
 #--------------------------------------------------------------------------------*
-# ---- ORDINATION, GUILDS ----
+# ---- ORDINATION BY GUILD ----
 #================================================================================*
 
 pc = read.csv('derived-data/pc_10_14.csv')
@@ -228,7 +159,7 @@ pcg$trophic = paste(pcg.troph$foraging, pcg.troph$trophic, sep='-')
 
 
 trophic = aggregate(pcg$counts,by = list(pcg$site,pcg$year,pcg$trophic),sum)
-  names(trophic) = c('site','year','guild','count')
+names(trophic) = c('site','year','guild','count')
 nest = aggregate(pcg$counts,by = list(pcg$site,pcg$year,pcg$nest),sum)
 names(nest) = c('site','year','guild','count')
 mig = aggregate(pcg$counts,by = list(pcg$site,pcg$year,pcg$migratory),sum)
@@ -251,94 +182,59 @@ prep.guild = function(life.history){
   t5 = merge(t4, lc.sites, all = F)
   pc.sites = data.frame(t2$site)
   names(pc.sites) = 'site'
-  t5[,-1]
+  t5 = t5[,-1]
+  # Convert to log-transformed counts:
+  pc2 = t5  
+  for(i in 1:dim(pc2)[2]){
+    pc2[,i] = log(1+pc2[,i])
+  }
+  pc2
 }
 
 trophic = prep.guild(trophic)
 nest = prep.guild(nest)
 mig = prep.guild(mig)
 
-ord.troph <- cca(trophic ~ lc.li+lc.hi+lc.forest+lc.ag, data=lc)
-ord.nest <- cca(nest ~ lc.li+lc.hi+lc.forest+lc.ag, data=lc)
-ord.mig <- cca(mig ~ lc.li+lc.hi+lc.forest+lc.ag, data=lc)
+ord.troph <- cca(trophic ~ can+imp, data=lc)
+ord.nest <- cca(nest ~ can+imp, data=lc)
+ord.mig <- cca(mig ~ can+imp, data=lc)
 
-### 
+# Explore explained variance
 
-# Exploring output
+ord.troph # .1034
 
-plot(ord.troph, type = "n",xlim = c(-1,1),ylim = c(-1,1))
-ord.fit = envfit(ord ~ lc.li+lc.hi+lc.forest+lc.ag, data=lc, perm=1000)
+cca(trophic ~ imp, data=lc) # .0861, .0173 explained by can not explained by imp
+
+cca(trophic ~ can, data=lc) # .0652, .0382 explained by imp not explained by can
+
+#
+
+ord.nest # .2005
+
+cca(nest ~ imp, data=lc) # .1826, .0179 explained by can not explained by imp
+
+cca(nest ~ can, data=lc) # .1447, .0558 explained by imp not explained by can
+
+#
+
+ord.mig # .05710
+
+cca(mig ~ imp, data=lc) # .0526, .0045 explained by can not explained by imp
+
+cca(mig ~ can, data=lc) # .0196, .0375 explained by imp not explained by can
+
+plot(ord.troph, type = "n",xlim = c(-.75,.75),ylim = c(-.75,.75))
+ord.fit = envfit(ord.troph ~ imp + can, data=lc, perm=1000)
 plot(ord.fit, col =1)
-text(ord.troph, display = "spec", cex=0.7, col="darkgreen")
-text(ord.nest, display = "spec", cex=0.7, col="red")
-text(ord.mig, display = "spec", cex=0.7, col="blue")
+text(ord.troph, display = "spec", cex=0.75, col="darkgreen")
 
-ord2.troph <- cca(trophic ~ imp + can, data=lc)
-ord2.nest <- cca(nest ~ imp + can, data=lc)
-ord2.mig <- cca(mig ~ imp + can, data=lc)
+plot(ord.nest, type = "n",xlim = c(-.75,.75),ylim = c(-.75,.75))
+ord.fit = envfit(ord.nest ~ imp + can, data=lc, perm=1000)
+plot(ord.fit, col =1)
+text(ord.nest, display = "spec", cex=1, col="red")
 
-w = 2 # w stands for window
-
-ord = cca(trophic)
-plot(ord, type = "n",xlim = c(-w,w),ylim = c(-w,w))
-ord.env = envfit(ord2 ~ imp + can, data=lc, perm=1000)
-plot(ord.env, col =1)
-
-
-head(lc)
-
-urb = factor(ifelse(lc$imp < 5,'R',ifelse(lc$imp>60,'U','S')))
-ordispider(ord, urb, col = 'blue')
-points(ord, display = "sites", cex = 0.5, pch=19, col="red")
-
-text(ord, display = "spec", cex=0.7, col="darkgreen")
-
-text(ord2, display = "spec", cex=0.7, col="blue")
-text(ord2.nest, display = "spec", cex=0.7, col="red")
-text(ord2.mig, display = "spec", cex=0.7, col="blue")
-
-# Explained variance:
-
-ord.troph # .113
-ord.nest # .1371
-ord.mig # 0.039 --> very low, dropping
-
-# Partitioning:
-
-ord.troph.no.lc.hi = cca(trophic~ lc.li+lc.forest+lc.ag, data=lc)
-ord.troph.no.lc.hi
-ord.troph.no.lc.li = cca(trophic~ lc.hi+lc.forest+lc.ag, data=lc)
-ord.troph.no.lc.li
-ord.troph.no.forest = cca(trophic~ lc.hi+lc.li+lc.ag, data=lc)
-ord.troph.no.forest
-ord.troph.no.ag = cca(trophic~ lc.hi+lc.li+lc.forest, data=lc)
-ord.troph.no.ag
-
-ord.nest.no.lc.hi = cca(nest~ lc.li+lc.forest+lc.ag, data=lc)
-ord.nest.no.lc.hi
-ord.nest.no.lc.li = cca(nest~ lc.hi+lc.forest+lc.ag, data=lc)
-ord.nest.no.lc.li
-ord.nest.no.forest = cca(nest~ lc.hi+lc.li+lc.ag, data=lc)
-ord.nest.no.forest
-ord.nest.no.ag = cca(nest~ lc.hi+lc.li+lc.forest, data=lc)
-ord.nest.no.ag
-
-ord2.troph.no.imp = cca(trophic~ can, data=lc)
-ord2.troph.no.can = cca(trophic~ imp, data=lc)
-
-ord2.troph
-ord2.troph.no.imp
-ord2.troph.no.can
-
-ord2.nest.no.imp = cca(nest~ can, data=lc)
-ord2.nest.no.can = cca(nest~ imp, data=lc)
-ord2.nest.no.imp
-ord2.nest.no.can
-
-
-plot(ord2.troph, type = "n",xlim = c(-.75,.75),ylim = c(-.75,.75))
-ord2.fit = envfit(ord2 ~ imp + can, data=lc, perm=1000)
-plot(ord2.fit, col =1)
-text(ord2.troph, display = "spec", cex=0.7, col="darkgreen")
-text(ord2.nest, display = "spec", cex=0.7, col="red")
+plot(ord.mig, type = "n",xlim = c(-.15,.15),ylim = c(-.15,.15))
+ord.fit = envfit(ord.mig ~ imp + can, data=lc, perm=1000)
+plot(ord.fit, col =1)
+text(ord.mig, display = "spec", cex=1.5, col="blue")
 
