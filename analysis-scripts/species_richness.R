@@ -4,8 +4,7 @@
 
 # Load packages:
 
-library(vegan)
-library(reshape)
+library(ggplot2)
 
 # Run source script to prepare data for analysis:
 
