@@ -10,59 +10,181 @@ library(ggplot2)
 
 source('analysis-scripts/pc_prep2.R')
 
+#--------------------------------------------------------------------------------*
+# ---- FUNCTIONS FOR ANALYSES ----
+#================================================================================*
+
+# Create list of potential models:
+
+models = list('response~imp + can + imp:can + I(imp^2) + I(can^2)',
+              'response~imp + can + imp:can + I(imp^2)',
+              'response~imp + can + imp:can + I(can^2)',
+              'response~imp + can + imp:can',
+              'response~imp + can + I(imp^2) + I(can^2)',
+              'response~imp + can + I(can^2)',
+              'response~can + I(can^2)',
+              'response~can + imp',
+              'response~can',
+              'response~imp + can + I(imp^2)',
+              'response~imp + I(imp^2)',
+              'response~imp',
+              'response~1')  
+
+# Run model list function:
+
+run.mods = function(response){
+  out.list = list()
+  for(i in 1:length(models)){
+    out.list[[i]] = glm(as.formula(models[[i]]), data = lc)
+    }
+  return(out.list)
+  }
+
+# Adjusted D2 function (roughly equivalent to R2, see Guisan
+# & Zimmermann 2000):
+
+d2adj = function(mod.list, response, i){
+  mod = mod.list[[i]]
+  d2 = (mod$null.deviance - mod$deviance)/mod$null.deviance
+  k = length(mod$coefficients)
+  n = length(response)
+  D2adj = 1 - ((n-1)/ (n-k))*(1-d2)
+  if(k == 1) D2adj = d2
+  return(D2adj)
+}
+
+# Model out function:
+# Note: input is the model list function above, output is a
+# list of model outputs [[1]] where the length that of the list
+# of models and a model selection table [[2]]
+
+mod.outs = function(response){
+  # Run models across list:
+    mod.list = run.mods(response)
+  # Set outputs to extract from model list:
+    aic_out = numeric()
+    formulas = character()
+    k = numeric()
+    deviance = numeric()
+    D2adj = numeric()
+  # Extract outputs from each model:
+    for(i in 1:length(mod.list)){
+      formulas[i] = as.character(mod.list[[i]]$formula[3])
+      aic_out[i] = AIC(mod.list[[i]])
+      k[i] = length(mod.list[[i]]$coefficients)
+      deviance[i] = mod.list[[i]]$deviance
+      D2adj[i] = d2adj(mod.list, response, i)
+    }
+  # Create model table:
+    out.df = data.frame(formulas, k, aic_out, deviance, D2adj)
+  # Sort by AIC
+    out.df = out.df[order(out.df$aic_out),]
+  # Add delta AIC and model weights:
+    out.df$dAIC = out.df$aic_out-min(out.df$aic_out)
+    out.df$w = round(exp(-0.5*out.df$dAIC)/sum(exp(-0.5*out.df$dAIC)),3)
+  # Output table, with columns sorted:
+    out.df = out.df[,c(1:3, 6:7, 4, 5)]
+  # Output list:
+    out.list = list(mod.list, out.df)
+    return(out.list)
+  }
+
+# Function extract the coefficient and standard error from a
+# model:
+
+get.coef.se = function(predictor, response, i){
+  # Make model list and tables:
+#     m1 = mod.outs(response)
+#     mod.list = m1[[1]]
+#     m.table = m1[[2]]
+  # Summary table for a given model:
+    sum.table = data.frame(summary(mod.list[[i]])[12])
+  # Extract to predictor variable
+    sum.table = sum.table[row.names(sum.table) == predictor,]
+  # If the predictor variable isn't present, replace with NA
+    if (dim(sum.table)[1] == 0) sum.table[1,] = NA
+  # Return estimate and standard error
+    out.df = sum.table[,1:2]
+      names(out.df) = c('estimate','se')
+    return(out.df)
+  }
+
+# Function to calculate model-averaged coefficients (and standard
+# errors) for a given predictor variable:
+
+ma.coefs.se = function(predictor, response){  
+#   m1 = mod.outs(response)
+#   mod.list = m1[[1]]
+#   m.table = m1[[2]]
+  # Make model list and tables:
+#     mod.list = run.m.list(response)
+#     m.table = mod.table(response)
+  # For loop to extract model averaged coefficients and se
+    ma.beta = numeric()
+    ma.se = numeric()
+    for (i in 1:length(mod.list)){
+      w[i] = m.table[row.names(m.table) == i,'w']
+      ma.beta[i] = get.coef.se(predictor, response, i)[,1]*w[i]
+      ma.se[i] = get.coef.se(predictor, response, i)[,2]*w[i]
+      }
+  # Remove NA's and returned sum coefficient and se values:
+    ma.beta = na.omit(ma.beta)
+    ma.se = na.omit(ma.se)
+    beta.est = sum(ma.beta)
+    beta.se = sum(ma.se)
+  # Return data frame of estimate and se:
+    out.df = data.frame(predictor, beta.est, beta.se)
+      return(out.df)
+  }
+
+# Function to create a model-averaged global model across predictor variables:
+
+ma.pred = function(response){
+  predictors = c('(Intercept)','imp','can','imp:can','I(imp^2)', 'I(can^2)')
+  out.list = list()
+  for (i in 1:length(predictors)){
+    out.list[[i]] = ma.coefs.se(predictors[i], response)
+  }
+  # Output as data frame:
+    do.call('rbind', out.list)
+}
+  
+# Wrapper function that outputs the model table and beta estimates:
+
+summary.outs = function(response){
+    m1 = mod.outs(response)
+    mod.list = m1[[1]]
+    m.table = m1[[2]]
+    mod.averages = ma.pred(response)
+    list.out = list(m.table, mod.averages)
+    return(list.out)
+}
+
+
+
+
+
+
 
 #--------------------------------------------------------------------------------*
 # ---- Species richness ----
 #================================================================================*
 
-sr = specnumber(pc)
+# Get species richness by site:
 
-plot(sr~imp, data = lc, xlab = 'Impervious surface (%)', ylab = 'Species Richness')
+  sr = specnumber(pc)
 
-mod.i2c2.full = glm(sr~imp + can + imp:can + I(imp^2) + I(can^2), data = lc)
-mod.i2.inter = glm(sr~imp + can + imp:can + I(imp^2), data = lc)
-mod.c2.inter = glm(sr~imp + can + imp:can + I(can^2), data = lc)
-mod.ic.inter = glm(sr~imp + can + imp:can, data = lc)
-mod.i2c2 = glm(sr~imp + can + I(imp^2) + I(can^2), data = lc)
-mod.ic2 = glm(sr~imp + can + I(can^2), data = lc)
-mod.c2 = glm(sr~can + I(can^2), data = lc)
-mod.ic = glm(sr~can + imp, data = lc)
-mod.c = glm(sr~can, data = lc)
-mod.i2c = glm(sr~imp + can + I(imp^2), data = lc)
-mod.i2 = glm(sr~imp + I(imp^2), data = lc)
-mod.i = glm(sr~imp, data = lc)
-mod.null = glm(sr~1, data = lc)
+# Run models:
 
+  mod.list.sr = run.m.list(sr)
 
-mod.list = list(mod.i2c2.full, mod.i2.inter,mod.c2.inter, mod.ic.inter, 
-                mod.i2c2, mod.ic2, mod.c2, mod.ic, mod.c, mod.i2c, mod.i2,
-                mod.i, mod.null)
+# Construct output table:
 
+  mod.tab.sr = mod.table(mod.list.sr)
 
+# Look at results
 
-aic_out = numeric()
-formulas = character()
-deviance = numeric()
-
-for(i in 1:length(mod.list)){
-  formulas[i] = as.character(mod.list[[i]]$formula[3])
-  aic_out[i] = AIC(mod.list[[i]])
-  deviance[i] = mod.list[[i]]$deviance
-}
-
-out.df = data.frame(formulas, aic_out, deviance)
-
-out.df = out.df[order(out.df$aic_out),]
-
-out.df$dAIC = out.df$aic_out-min(out.df$aic_out)
-
-out.df$w = round(exp(-0.5*out.df$dAIC)/sum(exp(-0.5*out.df$dAIC)),3)
-
-out.df = out.df[,c(1:2, 4:5, 3)]
-
-# Output:
-
-out.df
+  mod.tab.sr
 
 summary(mod.list[[2]])
 
@@ -70,6 +192,14 @@ summary(lm(sr~imp + can + imp:can + I(imp^2), data = lc))
 
 imp = seq(0,100, 1)
 can = seq(0,100, 1)
+
+coef(mod.list.sr[[2]])['imp']*mod.tab.sr[2,'w']
+
+
+
+
+
+ma.coefs('imp', mod.list.sr, mod.tab.sr)
 
 mod.predictions = predict(mod.i2.inter, type = 'response')
 
@@ -79,7 +209,9 @@ df2 = data.frame(mod.predictions, lc$can, lc$imp)
 plot(mod.predictions~lc$imp)
 plot(mod.predictions~lc$can)
 
-p1 = qplot(x = imp, y = can, data = df2, color = mod) 
+t = expected.frame(sr, 100, 100)
+
+p1 = qplot(x = imp, y = can, data = t, color = richness) 
 p1 + scale_colour_gradient(c(0,5), low = 'yellow', high = 'red')+
   geom_point(shape = 1)+
   xlab('% Impervious') + ylab('% Canopy') + 
