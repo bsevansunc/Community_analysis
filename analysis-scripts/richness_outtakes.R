@@ -51,3 +51,16 @@ adj.r2 = function(response, imp, can){
   k.ave = sum(aic.table$k*aic.table$w)
   ((length(response)-1)*r2-k.ave)/(length(response)-1-k.ave)
 }
+
+# Calculate variable weights:
+
+var.weights = function(response){
+  mt = = mod.outs(response)[[2]]
+  vars = c('imp','can','imp:can','I(imp^2)', 'I(can^2)')
+  mod.vars = numeric()
+  for(i in 1:length(vars)){
+    mod.vars  = grep
+  }
+}
+
+grep('imp',mt[,1])
