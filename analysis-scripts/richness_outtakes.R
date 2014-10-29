@@ -64,3 +64,81 @@ var.weights = function(response){
 }
 
 grep('imp',mt[,1])
+
+# Plotting from yesterday
+
+# Construct output table:
+
+mod.tab.sr = mod.table(mod.list.sr)
+
+# Look at results
+
+mod.tab.sr
+
+summary(mod.list[[2]])
+
+summary(lm(sr~imp + can + imp:can + I(imp^2), data = lc))
+
+imp = seq(0,100, 1)
+can = seq(0,100, 1)
+
+coef(mod.list.sr[[2]])['imp']*mod.tab.sr[2,'w']
+
+
+
+
+
+ma.coefs('imp', mod.list.sr, mod.tab.sr)
+
+mod.predictions = predict(mod.i2.inter, type = 'response')
+
+df2 = data.frame(mod.predictions, lc$can, lc$imp)
+names(df2) = c('mod','can','imp')
+
+plot(mod.predictions~lc$imp)
+plot(mod.predictions~lc$can)
+
+t = expected.frame(sr, 100, 100)
+
+p1 = qplot(x = imp, y = can, data = t, color = richness) 
+p1 + scale_colour_gradient(c(0,5), low = 'yellow', high = 'red')+
+  geom_point(shape = 1)+
+  xlab('% Impervious') + ylab('% Canopy') + 
+  # Add themes:
+  theme(axis.text = element_text(size=14, color = 1),
+        axis.title.x = element_text(vjust = -.5),
+        axis.title.y = element_text(vjust = .5),
+        axis.title = element_text(size=18, vjust = -1),
+        axis.line = element_line(colour = "black"),
+        panel.background = element_blank())
+
+scale_colour_gradient(na.value = 'gray')
+
+x = 1:100
+y = 1:100
+
+grid = mesh(x,y)
+g1 = grid$x + grid$y
+g1 = ifelse(g1>100, NA, 1)
+
+z =with(grid, 14.817241-0.287151*x+0.0023908*x^2-0.0317364*y+0.0060869*x*y)
+
+z = z*g1
+
+t = melt(z)
+t = na.omit(t)
+names(t) = c('imp','can','richness')
+
+t2 = ggplot(t, aes(imp,can,z = richness))
+t2 + geom_tile(aes(fill = richness))+
+  scale_fill_continuous(name = 'Richness',low = "yellow", high = "red")+
+  stat_contour(bins = 20,size = .25)+
+  xlab('% Impervious') + ylab('% Canopy') + 
+  # Add themes:
+  theme(axis.text = element_text(size=14, color = 1),
+        axis.title.x = element_text(vjust = -.5),
+        axis.title.y = element_text(vjust = .5),
+        axis.title = element_text(size=18, vjust = -1),
+        axis.line = element_line(colour = "black"),
+        panel.background = element_blank())
+
