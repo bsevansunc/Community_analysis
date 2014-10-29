@@ -93,10 +93,6 @@ mod.outs = function(response){
 # model:
 
 get.coef.se = function(predictor, response, i){
-  # Make model list and tables:
-#     m1 = mod.outs(response)
-#     mod.list = m1[[1]]
-#     m.table = m1[[2]]
   # Summary table for a given model:
     sum.table = data.frame(summary(mod.list[[i]])[12])
   # Extract to predictor variable
@@ -113,12 +109,6 @@ get.coef.se = function(predictor, response, i){
 # errors) for a given predictor variable:
 
 ma.coefs.se = function(predictor, response){  
-#   m1 = mod.outs(response)
-#   mod.list = m1[[1]]
-#   m.table = m1[[2]]
-  # Make model list and tables:
-#     mod.list = run.m.list(response)
-#     m.table = mod.table(response)
   # For loop to extract model averaged coefficients and se
     ma.beta = numeric()
     ma.se = numeric()
