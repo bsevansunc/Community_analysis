@@ -262,27 +262,3 @@ scatterout = function(response){
 
   scatterout(gr.nest)
 
-#--------------------------------------------------------------------------------*
-# ---- Migration ----
-#--------------------------------------------------------------------------------*
-
-# Get trophic richness by site:
-
-  gr.mig = specnumber(mig)
-
-# AIC table (full):
-
-  summary.outs(gr.mig)[[1]] 
-
-# Beta estimates:
-
-  summary.outs(gr.mig)[[2]] 
-
-# HL AIC table:
-
-  HL.table(gr.mig)
-
-# Plot output:
-
-  scatterout(gr.mig)
-
