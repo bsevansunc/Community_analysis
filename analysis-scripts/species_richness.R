@@ -9,6 +9,7 @@ library(ggplot2)
 # Run source script to prepare data for analysis:
 
 source('analysis-scripts/pc_prep2.R')
+source('analysis-scripts/multiplot_function.R')
 
 #--------------------------------------------------------------------------------*
 # ---- FUNCTIONS FOR ANALYSES ----
@@ -186,6 +187,44 @@ scatterout = function(response){
           legend.position="none",
           panel.background = element_blank())
   }
+
+scatterout.lc = function(response, lc.in){
+  # Make data frame:
+    df = data.frame(response, lc[,lc.in])
+      names(df) = c('response','predictor')
+  # Get modelled data and construct grid to plot:
+    model = lm(response~predictor+I(predictor^2), data = df)
+    grid <- with(df, expand.grid(predictor = seq(min(predictor), max(predictor), length = 50)))
+      grid$response <- stats::predict(model, newdata=grid)
+      err <- stats::predict(model, newdata=grid, se = TRUE)
+        grid$ucl <- err$fit + 1.96 * err$se.fit
+        grid$lcl <- err$fit - 1.96 * err$se.fit
+  # Plot label for x-axis:
+    xlabel = if (lc.in == 'imp') '% Impervious' else '% Canopy'
+  # Plot data:
+    ggplot(df, aes(predictor, response)) + geom_point(color = 'dimgray') + 
+      geom_smooth(aes(ymin = lcl, ymax = ucl), data = grid, stat='identity', col = 1) +
+      ylab('Richness') + 
+      xlab(xlabel) + 
+      # Add themes:
+      theme(axis.text = element_text(size=14, color = 1),
+            axis.title.x = element_text(vjust = -.5),
+            axis.title.y = element_text(vjust = 1),
+            axis.title = element_text(size=18, vjust = -1),
+            axis.line = element_line(colour = "black"),
+            legend.position="none",
+            panel.background = element_blank())
+  }
+
+# Write a function that combines the above into a single plot:
+
+plot.outs = function(response){
+  plot.list = list(scatterout(response), 
+                   scatterout.lc(response,'imp'), 
+                   scatterout.lc(response,'can'))
+  plot.layout = matrix(c(1,1,3,1,1,2), nrow = 2, byrow = T)
+  multiplot(plotlist = plot.list, layout = plot.layout)
+}
 
 #--------------------------------------------------------------------------------*
 # ---- Species richness ----
