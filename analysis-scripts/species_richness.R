@@ -92,7 +92,7 @@ mod.outs = function(response){
 # Function extract the coefficient and standard error from a
 # model:
 
-get.coef.se = function(predictor, response, i){
+get.coef.se = function(predictor, response, i, mod.list){
   # Summary table for a given model:
     sum.table = data.frame(summary(mod.list[[i]])[12])
   # Extract to predictor variable
@@ -108,14 +108,15 @@ get.coef.se = function(predictor, response, i){
 # Function to calculate model-averaged coefficients (and standard
 # errors) for a given predictor variable:
 
-ma.coefs.se = function(predictor, response){  
+ma.coefs.se = function(predictor, response, mod.list){  
   # For loop to extract model averaged coefficients and se
     ma.beta = numeric()
     ma.se = numeric()
+    w = numeric()
     for (i in 1:length(mod.list)){
       w[i] = m.table[row.names(m.table) == i,'w']
-      ma.beta[i] = get.coef.se(predictor, response, i)[,1]*w[i]
-      ma.se[i] = get.coef.se(predictor, response, i)[,2]*w[i]
+      ma.beta[i] = get.coef.se(predictor, response, i, mod.list)[,1]*w[i]
+      ma.se[i] = get.coef.se(predictor, response, i, mod.list)[,2]*w[i]
       }
   # Remove NA's and returned sum coefficient and se values:
     ma.beta = na.omit(ma.beta)
@@ -129,11 +130,11 @@ ma.coefs.se = function(predictor, response){
 
 # Function to create a model-averaged global model across predictor variables:
 
-ma.pred = function(response){
+ma.pred = function(response, mod.list){
   predictors = c('(Intercept)','imp','can','imp:can','I(imp^2)', 'I(can^2)')
   out.list = list()
   for (i in 1:length(predictors)){
-    out.list[[i]] = ma.coefs.se(predictors[i], response)
+    out.list[[i]] = ma.coefs.se(predictors[i], response, mod.list)
   }
   # Output as data frame:
     do.call('rbind', out.list)
@@ -145,7 +146,7 @@ summary.outs = function(response){
     m1 = mod.outs(response)
     mod.list = m1[[1]]
     m.table = m1[[2]]
-    mod.averages = ma.pred(response)
+    mod.averages = ma.pred(response, mod.list)
     list.out = list(m.table, mod.averages)
     return(list.out)
 }
@@ -213,6 +214,9 @@ scatterout = function(response){
 #--------------------------------------------------------------------------------*
 # ---- Guild richness ----
 #================================================================================*
+
+  trophic = pc.trophic
+  nest = pc.nest
 
 #--------------------------------------------------------------------------------*
 # ---- Trophic ----
