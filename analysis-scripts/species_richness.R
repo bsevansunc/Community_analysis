@@ -109,7 +109,7 @@ get.coef.se = function(predictor, response, i, mod.list){
 # Function to calculate model-averaged coefficients (and standard
 # errors) for a given predictor variable:
 
-ma.coefs.se = function(predictor, response, mod.list){  
+ma.coefs.se = function(predictor, response, mod.list, m.table){  
   # For loop to extract model averaged coefficients and se
     ma.beta = numeric()
     ma.se = numeric()
@@ -131,11 +131,11 @@ ma.coefs.se = function(predictor, response, mod.list){
 
 # Function to create a model-averaged global model across predictor variables:
 
-ma.pred = function(response, mod.list){
+ma.pred = function(response, mod.list,m.table){
   predictors = c('(Intercept)','imp','can','imp:can','I(imp^2)', 'I(can^2)')
   out.list = list()
   for (i in 1:length(predictors)){
-    out.list[[i]] = ma.coefs.se(predictors[i], response, mod.list)
+    out.list[[i]] = ma.coefs.se(predictors[i], response, mod.list,m.table)
   }
   # Output as data frame:
     do.call('rbind', out.list)
@@ -147,7 +147,7 @@ summary.outs = function(response){
     m1 = mod.outs(response)
     mod.list = m1[[1]]
     m.table = m1[[2]]
-    mod.averages = ma.pred(response, mod.list)
+    mod.averages = ma.pred(response, mod.list, m.table)
     list.out = list(m.table, mod.averages)
     return(list.out)
 }
@@ -237,6 +237,9 @@ plot.outs = function(response){
 # AIC table (full):
 
   summary.outs(sr)[[1]]
+  write.csv(summary.outs(sr)[[1]],
+            'output/table_outs/richness/aic_table.csv',
+            row.names = F)
 
 # Beta estimates:
 
@@ -305,3 +308,8 @@ plot.outs = function(response){
 
   plot.outs(gr.nest)
 
+#--------------------------------------------------------------------------------*
+# ---- END ----
+#--------------------------------------------------------------------------------*
+
+rm(list = ls())
