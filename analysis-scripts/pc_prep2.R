@@ -251,10 +251,10 @@ pc.abund2 = merge(pc.abund2, nest.df)
 pc.abund = pc.abund2
 
 # Calculate the abundance scaled by years
-
-for (i in 6:length(names(pc.abund))){
-  pc.abund[,i] = pc.abund[,i]/pc.abund[,2]
-}
+# 
+# for (i in 6:length(names(pc.abund))){
+#   pc.abund[,i] = pc.abund[,i]/pc.abund[,2]
+# }
 
 # Make separate frames for trophic and nesting guilds:
 
