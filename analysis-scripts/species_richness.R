@@ -237,9 +237,6 @@ plot.outs = function(response){
 # AIC table (full):
 
   summary.outs(sr)[[1]]
-  write.csv(summary.outs(sr)[[1]],
-            'output/table_outs/richness/aic_table.csv',
-            row.names = F)
 
 # Beta estimates:
 
@@ -252,6 +249,18 @@ plot.outs = function(response){
 # Plot output:
 
   plot.outs(sr)
+
+# Write output:
+
+  write.csv(summary.outs(sr)[[1]],
+            'output/table_outs/richness/species/aic_table.csv',
+            row.names = F)
+  write.csv(summary.outs(sr)[[2]],
+            'output/table_outs/richness/species/beta_estimates_table.csv',
+            row.names = F)
+  write.csv(HL.table(sr),
+            'output/table_outs/richness/species/HLtable.csv',
+            row.names = F)
 
 #--------------------------------------------------------------------------------*
 # ---- Guild richness ----
@@ -284,6 +293,18 @@ plot.outs = function(response){
 
   plot.outs(gr.troph)
 
+# Write output:
+
+write.csv(summary.outs(gr.troph)[[1]],
+          'output/table_outs/richness/trophic_guild/aic_table.csv',
+          row.names = F)
+write.csv(summary.outs(gr.troph)[[2]],
+          'output/table_outs/richness/trophic_guild/beta_estimates_table.csv',
+          row.names = F)
+write.csv(HL.table(gr.troph),
+          'output/table_outs/richness/trophic_guild/HLtable.csv',
+          row.names = F)
+
 #--------------------------------------------------------------------------------*
 # ---- Nest ----
 #--------------------------------------------------------------------------------*
@@ -307,6 +328,18 @@ plot.outs = function(response){
 # Plot output:
 
   plot.outs(gr.nest)
+
+# Write output:
+
+write.csv(summary.outs(gr.nest)[[1]],
+          'output/table_outs/richness/trophic_guild/aic_table.csv',
+          row.names = F)
+write.csv(summary.outs(gr.nest)[[2]],
+          'output/table_outs/richness/trophic_guild/beta_estimates_table.csv',
+          row.names = F)
+write.csv(HL.table(gr.nest),
+          'output/table_outs/richness/trophic_guild/HLtable.csv',
+          row.names = F)
 
 #--------------------------------------------------------------------------------*
 # ---- END ----
