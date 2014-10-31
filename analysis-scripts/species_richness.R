@@ -202,15 +202,15 @@ scatterout.lc = function(response, lc.in){
   # Plot label for x-axis:
     xlabel = if (lc.in == 'imp') '% Impervious' else '% Canopy'
   # Plot data:
-    ggplot(df, aes(predictor, response)) + geom_point(color = 'dimgray') + 
+    ggplot(df, aes(predictor, response)) + geom_point(color = 'darkgray', size = .95) + 
       geom_smooth(aes(ymin = lcl, ymax = ucl), data = grid, stat='identity', col = 1) +
       ylab('Richness') + 
       xlab(xlabel) + 
       # Add themes:
-      theme(axis.text = element_text(size=14, color = 1),
+      theme(axis.text = element_text(size=10, color = 1),
             axis.title.x = element_text(vjust = -.5),
             axis.title.y = element_text(vjust = 1),
-            axis.title = element_text(size=18, vjust = -1),
+            axis.title = element_text(size=12, vjust = -1),
             axis.line = element_line(colour = "black"),
             legend.position="none",
             panel.background = element_blank())
@@ -248,7 +248,7 @@ plot.outs = function(response){
 
 # Plot output:
 
-  scatterout(sr)
+  plot.outs(sr)
 
 #--------------------------------------------------------------------------------*
 # ---- Guild richness ----
@@ -279,7 +279,7 @@ plot.outs = function(response){
 
 # Plot output:
 
-  scatterout(gr.troph)
+  plot.outs(gr.troph)
 
 #--------------------------------------------------------------------------------*
 # ---- Nest ----
@@ -303,5 +303,5 @@ plot.outs = function(response){
 
 # Plot output:
 
-  scatterout(gr.nest)
+  plot.outs(gr.nest)
 
