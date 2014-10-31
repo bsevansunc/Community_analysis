@@ -250,10 +250,9 @@ pc.abund2 = merge(pc.abund2, nest.df)
 
 pc.abund = pc.abund2
 
-# Calculate the abundance scaled by years and total abundance for
-# each row of the life history guilds:
+# Calculate the abundance scaled by years
 
 for (i in 6:length(names(pc.abund))){
-  pc.abund[,i] = pc.abund[,i]/pc.abund[,2]/pc.abund[,5]
+  pc.abund[,i] = pc.abund[,i]/pc.abund[,2]
 }
 
