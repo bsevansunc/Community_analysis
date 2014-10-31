@@ -256,3 +256,13 @@ for (i in 6:length(names(pc.abund))){
   pc.abund[,i] = pc.abund[,i]/pc.abund[,2]
 }
 
+# Make separate frames for trophic and nesting guilds:
+
+troph.ab = pc.abund[,c(1,6:18)]
+
+troph.ab$t = rowSums(troph.ab[,2:14])
+
+nest.ab = pc.abund[,c(1,19:24)]
+
+nest.ab$t = rowSums(nest.ab[,2:7])
+
