@@ -77,78 +77,87 @@ lc = lc1
 # ---- Log-transform count data ----
 #--------------------------------------------------------------------------------*
 
-head(pc)
-
 pc2 = pc[,-53]
 
 for(i in 1:dim(pc2)[2]){
   pc2[,i] = log(1+pc2[,i])
 }
 
-pc = pc2
+pc.logtransformed = pc2
+
+pc = pc[,-53]
 
 #--------------------------------------------------------------------------------*
 # ---- Counts by guild ----
 #================================================================================*
 
-pc1 = read.csv('derived-data/pc_10_14.csv')
-g$species = tolower(g$species)
+# Get data:
 
-pcg = merge(pc1,g, all = F)
-
-
-#### Prepare count frame ----
+  pc1 = read.csv('derived-data/pc_10_14.csv')
+  g$species = tolower(g$species)
+  
+  pcg = merge(pc1,g, all = F)
 
 # For this run, I will use the max count per location across distance classes:
 
-pcg$counts = pcg[,7]+pcg[,8]+pcg[,9]+pcg[,10]+pcg[,11]
+  pcg$counts = pcg[,7]+pcg[,8]+pcg[,9]+pcg[,10]+pcg[,11]
 
 # Remove Bert Drake:
 
-pcg = pcg[pcg$site!='DRAKBERMD1',]
+  pcg = pcg[pcg$site!='DRAKBERMD1',]
 
 # Separate by life history trait
 
-pcg.troph = pcg
-pcg.nest = pcg
-pcg.migr = pcg
+  pcg.troph = pcg
+  pcg.nest = pcg
 
-pcg$trophic = paste(pcg.troph$foraging, pcg.troph$trophic, sep='-')
+# Combine feeding and trophic guilds:
 
+  pcg$trophic = paste(pcg.troph$foraging, pcg.troph$trophic, sep='-')
 
-trophic = aggregate(pcg$counts,by = list(pcg$site,pcg$year,pcg$trophic),sum)
-names(trophic) = c('site','year','guild','count')
-nest = aggregate(pcg$counts,by = list(pcg$site,pcg$year,pcg$nest),sum)
-names(nest) = c('site','year','guild','count')
-mig = aggregate(pcg$counts,by = list(pcg$site,pcg$year,pcg$migratory),sum)
-names(mig) = c('site','year','guild','count')
+# Aggregate count data by guild:
 
+  trophic = aggregate(pcg$counts,by = list(pcg$site,pcg$year,pcg$trophic),sum)
+    names(trophic) = c('site','year','guild','count')
+  nest = aggregate(pcg$counts,by = list(pcg$site,pcg$year,pcg$nest),sum)
+    names(nest) = c('site','year','guild','count')
 
-# Function to prepare count frames
+# Functions to prepare count frames for raw and log-transformed abundances:
 
-prep.guild = function(life.history){
-  t = melt(life.history, id = c('site','year','guild'))
-  t2 = cast(t, site ~ guild,max)
-  t3 = data.frame(t2)[,-1]
-  t3m = as.matrix(t3)
-  t3m[t3m == -Inf]<-0
-  t4 = data.frame(t3m)
-  t4$site = t2$site
-  lc = unique(lc)
-  lc.sites = data.frame(lc[,1])
-  colnames(lc.sites) = 'site'
-  t5 = merge(t4, lc.sites, all = F)
-  pc.sites = data.frame(t2$site)
-  names(pc.sites) = 'site'
-  t5 = t5[,-1]
-  # Convert to log-transformed counts:
-  pc2 = t5  
-  for(i in 1:dim(pc2)[2]){
-    pc2[,i] = log(1+pc2[,i])
+  prep.guild = function(life.history){
+    t = melt(life.history, id = c('site','year','guild'))
+    t2 = cast(t, site ~ guild,max)
+    t3 = data.frame(t2)[,-1]
+    t3m = as.matrix(t3)
+    t3m[t3m == -Inf]<-0
+    t4 = data.frame(t3m)
+    t4$site = t2$site
+    lc = unique(lc)
+    lc.sites = data.frame(lc[,1])
+    colnames(lc.sites) = 'site'
+    t5 = merge(t4, lc.sites, all = F)
+    pc.sites = data.frame(t2$site)
+    names(pc.sites) = 'site'
+    pc = t5[,-1]
+    return(pc)
   }
-  pc2
-}
 
-trophic = prep.guild(trophic)
-nest = prep.guild(nest)
-mig = prep.guild(mig)
+  guild.log.transform = function(life.history){
+    # Get data
+     pc2 = prep.guild(life.history)
+    # Convert to log-transformed counts:
+      for(i in 1:dim(pc2)[2]){
+        pc2[,i] = log(1+pc2[,i])
+      }
+    return(pc2)
+    }
+
+# Return raw point count abundances by guild:
+
+  trophic = prep.guild(trophic)
+  nest = prep.guild(nest)
+
+# Return log-transformed abundances by guild:
+
+  trophic.logtransformed = guild.log.transform(trophic)
+  nest.logtransformed = guild.log.transform(nest)
