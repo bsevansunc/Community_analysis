@@ -154,8 +154,8 @@ pc = pc[,-53]
 
 # Return raw point count abundances by guild:
 
-  trophic = prep.guild(trophic)
-  nest = prep.guild(nest)
+  pc.trophic = prep.guild(trophic)
+  pc.nest = prep.guild(nest)
 
 # Return log-transformed abundances by guild:
 
