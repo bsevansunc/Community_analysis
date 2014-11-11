@@ -186,8 +186,8 @@ HL.table(nest.ab,'cup.gen.c')
 
 # Graphical output (function):
 
-scatterout = function(response){
-  df1 = data.frame(pc.abund$imp, pc.abund$can, response)
+scatterout = function(df, response){
+  df1 = data.frame(pc.abund$imp, pc.abund$can, df[,response])
   names(df1) = c('imp','can','z')
   p = ggplot(df1, aes(imp, can))
   p + geom_point(aes(color = z, size = z))+
@@ -204,12 +204,17 @@ scatterout = function(response){
           panel.background = element_blank())
 }
 
-scatterout.lc = function(response, lc.in){
+scatterout(nest.ab,'cavity.c')
+
+scatterout.lc(nest.ab,'cavity.c', 'imp')
+
+
+scatterout.lc = function(df, response, lc.in){
   # Make data frame:
-  df = data.frame(response, pc.abund[,lc.in])
-  names(df) = c('response','predictor')
+  df = data.frame(df[,response], df$t, pc.abund[,lc.in])
+  names(df) = c('response','t', 'predictor')
   # Get modelled data and construct grid to plot:
-  model = lm(response~predictor+I(predictor^2), data = df)
+  model = glm(cbind(response, t-response)~predictor, data = df, family = binomial(link = 'logit'))
   grid <- with(df, expand.grid(predictor = seq(min(predictor), max(predictor), length = 50)))
   grid$response <- stats::predict(model, newdata=grid)
   err <- stats::predict(model, newdata=grid, se = TRUE)
@@ -243,82 +248,50 @@ plot.outs = function(response){
 }
 
 #--------------------------------------------------------------------------------*
-# ---- TOTAL ABUNDANCE ----
-#================================================================================*
-
-# Get total abundance by site
-
-t.abund = pc.abund$t.a
-
-# AIC table (full):
-
-summary.outs(t.abund,gaussian)[[1]]
-
-# Beta estimates:
-
-summary.outs(t.abund,gaussian('identity'))[[2]]  
-
-# HL AIC table:
-
-HL.table(t.abund,gaussian('identity'))
-
-# Plot output:
-
-plot.outs(t.abund)
-
-# Write output:
-
-write.csv(summary.outs(t.abund)[[1]],
-          'output/table_outs/abundance/total/aic_table.csv',
-          row.names = F)
-write.csv(summary.outs(t.abund)[[2]],
-          'output/table_outs/abundance/total/beta_estimates_table.csv',
-          row.names = F)
-write.csv(HL.table(t.abund,gaussian('identity')),
-          'output/table_outs/abundance/total/HLtable.csv',
-          row.names = F)
-
-#--------------------------------------------------------------------------------*
 # ---- BY   trophic and nest guilds GUILD ----
 #================================================================================*
 # Lots of them!
 
 # Wrap through to write output:
 
-out.fun = function(i){
-  file.name = paste('output/table_outs/abundance/',names(pc.abund[i]),sep = '')
-  write.csv(summary.outs(pc.abund[,i], binomial(link = 'logit'))[[1]],
-            paste(file.name,'/aic_table.csv',sep =''),
+out.fun = function(df, i){
+  file.name = paste('output/table_outs/abundance2/',names(df[i]),sep = '')
+  write.csv(summary.outs(df,names(df)[i])[[1]],
+            paste(file.name,'_aic_table.csv',sep =''),
             row.names = F)
-  write.csv(summary.outs(pc.abund[,i], binomial(link = 'logit'))[[2]],
-            paste(file.name,'/beta_estimates_table.csv',sep =''),
+  write.csv(summary.outs(df,names(df)[i])[[2]], 
+            paste(file.name,'_beta_estimates_table.csv',sep =''),
             row.names = F)
-  write.csv(HL.table(pc.abund[,i], binomial(link = 'logit')),
-            paste(file.name,'/HLtable.csv',sep =''),
+  write.csv(HL.table(df,names(df)[i]),
+            paste(file.name,'_HLtable.csv',sep =''),
             row.names = F)
 }
 
 # Wrap through save output:
 
-for (i in 6:length(names(pc.abund))){
-  out.fun(i)
+for (i in 2:7){
+  out.fun(nest.ab, i)
+}
+
+for (i in 2:14){
+  out.fun(troph.ab, i)
 }
 
 # Plot function across guilds:
 
-plot.fun = function(i){
-  out_dir = 'output/plots/relative_abundance/'
-  out_name = paste('rel_abund_',names(pc.abund[i]),'.pdf', sep ='')
+plot.fun = function(df, i){
+  out_dir = 'output/plots/relative_abundance2/'
+  out_name = paste('rel_abund_',names(df[i]),'.pdf', sep ='')
   out = paste(out_dir, out_name, sep = '')
   pdf(out, width = 7.68, height = 4.8)
-  plot.outs(pc.abund[,i])
+  plot.outs(df[,i])
   dev.off()
 }
 
 
 # Plot output:
 
-for (i in 5:length(names(pc.abund))){
+for (i in 5:length(names(df))){
   plot.fun(i)
 }
 
