@@ -36,7 +36,7 @@ pc = pc[,-c(3:5,7:15)]
 
 t = melt(pc, id = c('site','year','species'))
 
-t2 = cast(t, site ~ species ~ variable,max)
+t2 = cast(t, site ~ species ~ variable,mean)
 
 t3 = data.frame(t2)
 
@@ -127,7 +127,7 @@ pc = pc[,-53]
 
   prep.guild = function(life.history){
     t = melt(life.history, id = c('site','year','guild'))
-    t2 = cast(t, site ~ guild,max)
+    t2 = cast(t, site ~ guild,mean)
     t3 = data.frame(t2)[,-1]
     t3m = as.matrix(t3)
     t3m[t3m == -Inf]<-0
