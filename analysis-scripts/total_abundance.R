@@ -10,10 +10,9 @@ library(vegan)
 library(reshape2)
 library(plyr)
 library(unmarked)
+library(AICcmodavg)
 
 # Get data:
-
-setwd('~/Community_analysis')
 
 pc = read.csv('derived-data/pc_10_14.csv')
 g = read.csv('derived-data/guilds.csv')
@@ -70,47 +69,20 @@ umf <- unmarkedFrameDS(y=as.matrix(pc.ta),
 
 # Vector of candidate model formulas:
 
-models = c('~can + imp ~1',
-           '~can + imp ~imp',
-           '~can + imp ~imp + can',
-           '~can + imp ~imp + I(imp^2)',
-           '~can + imp ~imp + I(imp^2) + can',
-           '~can + imp ~imp + I(imp^2) + can + I(can^2)',
-           '~can + imp ~can',
-           '~can + imp ~can + I(can^2)',
-           '~can + imp ~imp + can + I(can^2)',
-           '~can + imp ~imp + can + imp:can',
-           '~can + imp ~imp + can + imp:can + I(imp^2)',
-           '~can + imp ~imp + can + imp:can +I(can^2)',
-           '~can + imp ~imp + can + imp:can +I(imp^2)+ I(can^2)')
-
 models = c('~1 ~1',
-           '~1 ~imp',
-           '~1 ~imp + can',
-           '~1 ~imp + I(imp^2)',
-           '~1 ~imp + I(imp^2) + can',
-           '~1 ~imp + I(imp^2) + can + I(can^2)',
-           '~1 ~can',
-           '~1 ~can + I(can^2)',
-           '~1 ~imp + can + I(can^2)',
-           '~1 ~imp + can + imp:can',
-           '~1 ~imp + can + imp:can + I(imp^2)',
-           '~1 ~imp + can + imp:can +I(can^2)',
-           '~1 ~imp + can + imp:can +I(imp^2)+ I(can^2)')
+           '~can  ~1',
+           '~imp ~1',
+           '~can + imp ~1',
+           '~can + I(can^2) ~1',
+           '~can + imp + I(can^2) ~1',
+           '~can + imp + I(can^2) + I(imp^2) ~1',
+           '~can + imp + I(imp^2) ~1',
+           '~imp + I(imp^2) ~1',
+           '~can + imp + imp:can ~1',
+           '~can + imp + imp:can + I(can^2) ~1',
+           '~can + imp + imp:can + I(imp^2) ~1',
+           '~can + imp + imp:can + I(can^2) + I(imp^2) ~1')
 
-models = c('~imp ~1',
-           '~imp ~imp',
-           '~imp ~imp + can',
-           '~imp ~imp + I(imp^2)',
-           '~imp ~imp + I(imp^2) + can',
-           '~imp ~imp + I(imp^2) + can + I(can^2)',
-           '~imp ~can',
-           '~imp ~can + I(can^2)',
-           '~imp ~imp + can + I(can^2)',
-           '~imp ~imp + can + imp:can',
-           '~imp ~imp + can + imp:can + I(imp^2)',
-           '~imp ~imp + can + imp:can +I(can^2)',
-           '~imp ~imp + can + imp:can +I(imp^2)+ I(can^2)')
 
 # Run models:
 
@@ -118,6 +90,8 @@ mod.outs = list()
 for(i in 1:length(models)){
   mod.outs[[i]] = distsamp(formula(models[i]),umf, output = 'density')
 }
+
+names(mod.outs) = models
 
 #---------------------------------------------------------------------*
 # ---- Model table ----
@@ -127,7 +101,7 @@ fl = fitList(fits = mod.outs)
 
 aictab(mod.outs, modnames = models)
 
-modSel(fl, nullmod = '1')
+modSel(fl, nullmod = '~1 ~1')
 
 #---------------------------------------------------------------------*
 # ---- Model-averaged parameter estimates ----
@@ -137,7 +111,11 @@ modSel(fl, nullmod = '1')
 # ---- Predict model at sites ----
 #---------------------------------------------------------------------*
 
-mod.preds.site = predict(fl, type="state")
+mod.preds.site = predict(fl, type="det")
+
+coef(fl[[1]], type = 'det')
+
+backTransform(mod.preds.site,type = 'det')
 
 # Backtransform function to turn z values back to original scale:
 
