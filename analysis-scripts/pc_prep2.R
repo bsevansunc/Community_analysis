@@ -23,6 +23,17 @@ g = read.csv('derived-data/guilds.csv')
 lc = read.csv('derived-data/pts_lc100.csv')
 
 #--------------------------------------------------------------------------------*
+# ---- ENSURE LC AND PC FILES HAVE THE SAME SITES LISTED ----
+#================================================================================*
+# Note: Bert Drake removed due to no counts.
+
+pc.site = data.frame(site = sort(unique(pc[pc$site!='DRAKBERMD1','site'])))
+lc.site = data.frame(site = sort(unique(lc[lc$site!='DRAKBERMD1','site'])))
+
+pc = merge(pc, lc.site, all = F)
+lc = merge(lc, pc.site, all = F)
+
+#--------------------------------------------------------------------------------*
 # ---- PREPARE SPECIES POINT COUNT DATA FOR ANALYSIS ----
 #================================================================================*
 
