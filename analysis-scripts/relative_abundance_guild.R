@@ -7,6 +7,7 @@
 # Load packages:
 
 library(ggplot2)
+library(car)
 
 # Run source script to prepare data for analysis:
 
@@ -36,18 +37,28 @@ models = list('response~imp + can + imp:can + I(imp^2) + I(can^2)',
 # Run model list function:
 
 run.mods = function(df, response){
-  response = cbind(df[,response], df$t - df[,response])
+#   response = cbind(df[,response], df$t - df[,response])
+  response = logit(df[,response])
   out.list = list()
   for(i in 1:length(models)){
-    out.list[[i]] = glm(as.formula(models[[i]]), data = pc.abund, family = binomial(link = 'logit'))
+#     out.list[[i]] = glm(as.formula(models[[i]]), data = pc.abund, family = binomial(link = 'logit'))
+      out.list[[i]] = glm(as.formula(models[[i]]), data = pc.abund)
+    
   }
+  names(out.list) = models
   return(out.list)
 }
+
+test = run.mods(nest.ra,'cup.tree')
 
 # Adjusted D2 function (roughly equivalent to R2, see Guisan
 # & Zimmermann 2000):
 
-d2adj = function(df, mod.list, response, i){
+####################
+# WORKS TO HERE
+####################
+
+d2adj = function(df, mod.list, i){
   mod = mod.list[[i]]
   d2 = (mod$null.deviance - mod$deviance)/mod$null.deviance
   k = length(mod$coefficients)
@@ -179,12 +190,14 @@ ma.coefs.se('imp', test[[1]], test[[2]])
 
 ma.pred(test[[1]], m.table = test[[2]])
 
-summary.outs(nest.ab,'cup.gen.c')
+summary.outs(nest.ra,'cup.tree')
 
 HL.table(nest.ab,'cup.gen.c')
 
 
 # Graphical output (function):
+
+scatterout(nest.ab,'cup.gen.c')
 
 scatterout = function(df, response){
   df1 = data.frame(pc.abund$imp, pc.abund$can, df[,response])
