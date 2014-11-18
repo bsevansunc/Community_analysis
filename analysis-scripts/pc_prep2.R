@@ -69,9 +69,9 @@ counts.total = data.frame(count = rowSums(counts.sp))
 # ---- Log-transformed count data ----
 #--------------------------------------------------------------------------------*
 
-counts.lt = counts
+counts.lt = counts.total
 
-for(i in 1:dim(counts)[2]){
+for(i in 1:dim(counts.lt)[2]){
   counts.lt[,i] = log(1+counts.lt[,i])
 }
 
@@ -137,8 +137,8 @@ foraging_trophic.counts.lt = guild.log.transform(foraging_trophic.counts)
 
 guild.rel.abund = function(guild.df){
   rel.g.abund = list()
-    for (i in 1:ncol(nest.counts)){
-      rel.g.abund[[i]] = guild.df[i]/(rowSums(guild.df)-guild.df[i])
+    for (i in 1:ncol(guild.df)){
+      rel.g.abund[[i]] = guild.df[i]/(rowSums(guild.df))
     }
     df = do.call('cbind', rel.g.abund)
     return(df)
