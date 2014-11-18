@@ -18,6 +18,15 @@ source('analysis-scripts/multiplot_function.R')
 # ---- FUNCTIONS FOR ANALYSES ----
 #================================================================================*
 
+# Function to scale proportional value to (0,1):
+
+props.scaled = function(df, response){
+  x = df[,response]
+  n = length(x)
+  s = .5
+  (x*(n-1)+s)/n
+}
+
 # Create list of potential models:
 
 models = list('response~imp + can + imp:can + I(imp^2) + I(can^2)',
@@ -37,20 +46,258 @@ models = list('response~imp + can + imp:can + I(imp^2) + I(can^2)',
 # Run model list function:
 
 run.mods = function(df, response){
-#   response = cbind(df[,response], df$t - df[,response])
-  response = logit(df[,response])
+#   response = cbind(df[,response], rowSums(df) - df[,response])
+  response = props.scaled(df, response)
+  df = cbind(response, lc[-c(1:3)])
+#   response = logit(df[,response])
   out.list = list()
   for(i in 1:length(models)){
-#     out.list[[i]] = glm(as.formula(models[[i]]), data = pc.abund, family = binomial(link = 'logit'))
-      out.list[[i]] = glm(as.formula(models[[i]]), data = pc.abund)
-    
+#     out.list[[i]] = glm(as.formula(models[[i]]), data = df, family = binomial(link = 'logit'))
+#     out.list[[i]] = glm(as.formula(models[[i]]), data = pc.abund)
+    out.list[[i]] = betareg(as.formula(models[[i]]), data = df)
   }
   names(out.list) = models
   return(out.list)
 }
 
-test = run.mods(nest.ra,'cup.tree')
+#--------------------------------------------------------------------------------*
+# Nest relative abundance
+#--------------------------------------------------------------------------------*
 
+cav.edif.mods = run.mods(nest.ra,'cavity.edificarian')
+cav.tree.mods = run.mods(nest.ra,'cavity.tree')
+cup.ground.mods = run.mods(nest.ra,'cup.ground')
+cup.shrub.mods = run.mods(nest.ra,'cup.shrub')
+cup.tree.mods = run.mods(nest.ra,'cup.tree')
+
+nest.mod.list = list(cav.edif.mods, cav.tree.mods, cup.ground.mods, cup.shrub.mods, cup.tree.mods)
+names(nest.mod.list) = c('cavity.edificarian','cavity.tree', 'cup.ground','cup.shrub', 'cup.tree')
+
+aic.nest.mods = list()
+for (i in 1:length(nest.mod.list)){
+  aic.nest.mods[[i]] = aictab(nest.mod.list[[i]], modnames = names(nest.mod.list[[i]]))
+}
+
+names(aic.nest.mods) = names(nest.mod.list)
+
+aic.nest.mods
+
+coef.mods = function(guild.mod.list){
+  modavg(guild.mod.list, 'imp', exclude = c('imp:can','I(imp^2)'))->modavg.imp
+    mod.avg.imp = data.frame(modavg.imp[c(1, 3:7)])
+  modavg(guild.mod.list, 'can', exclude = c('imp:can','I(can^2)'))->modavg.can
+    mod.avg.can = data.frame(modavg.can[c(1, 3:7)])
+  modavg(guild.mod.list, 'imp:can')->modavg.imp.can
+    mod.avg.impcan = data.frame(modavg.imp.can[c(1, 3:7)])
+  modavg(guild.mod.list, 'I(imp^2)')->modavg.imp2
+    mod.avg.imp2 = data.frame(modavg.imp2[c(1, 3:7)])
+  modavg(guild.mod.list, 'I(can^2)')->modavg.can2
+    mod.avg.can2 = data.frame(modavg.can2[c(1, 3:7)])
+  out.df = rbind(mod.avg.imp, mod.avg.can, mod.avg.impcan, mod.avg.imp2, mod.avg.can2)
+  return(out.df)
+  }
+
+coef.nest.mods = list()
+for (i in 1:length(nest.mod.list)){
+  coef.nest.mods[[i]] = coef.mods(nest.mod.list[[i]])
+}
+
+names(coef.nest.mods) = names(nest.mod.list)
+coef.nest.mods
+
+imp.pred.df = function(guild){
+  guild.mod.list = nest.mod.list[[guild]]
+  imp.pred = data.frame(predicted = guild.mod.list[[11]]$fitted.values, imp = lc$imp)
+  imp.pred = imp.pred[order(imp.pred$imp),]
+  return(imp.pred)
+}
+
+can.pred.df = function(guild){
+  guild.mod.list = nest.mod.list[[guild]]
+  can.pred = data.frame(predicted = guild.mod.list[[7]]$fitted.values, can = lc$can)
+  can.pred = can.pred[order(can.pred$can),]
+  return(can.pred)
+}
+
+par(mar = c(5,5.2,2,1))
+plot(predicted~imp, data = imp.pred.df('cavity.edificarian'), 
+     ylim = c(0,.8), type = 'l', lwd = 2, bty = 'l', 
+     xlab = '% Impervious', ylab = 'Relative abundance', cex.lab = 1.2)
+  lines(predicted~imp, data = imp.pred.df('cavity.tree'), type = 'l', lwd = 2, col = 'blue')
+  lines(predicted~imp, data = imp.pred.df('cup.ground'), type = 'l', lwd = 2, col = 'red')
+  lines(predicted~imp, data = imp.pred.df('cup.shrub'), type = 'l', lwd = 2, col = 'orange')
+  lines(predicted~imp, data = imp.pred.df('cup.tree'), type = 'l', lwd = 2, col = 'purple')
+  legend('topleft', lwd = 2, legend = names(nest.mod.list), col = c(1, 'blue','red','orange','purple'), bty = 'n')
+
+
+plot(predicted~can, data = can.pred.df('cavity.edificarian'), 
+     ylim = c(0,.8), type = 'l', lwd = 2, bty = 'l', 
+     xlab = '% Canopy', ylab = 'Relative abundance', cex.lab = 1.2)
+lines(predicted~can, data = can.pred.df('cavity.tree'), type = 'l', lwd = 2, col = 'blue')
+lines(predicted~can, data = can.pred.df('cup.ground'), type = 'l', lwd = 2, col = 'red')
+lines(predicted~can, data = can.pred.df('cup.shrub'), type = 'l', lwd = 2, col = 'orange')
+lines(predicted~can, data = can.pred.df('cup.tree'), type = 'l', lwd = 2, col = 'purple')
+legend('topleft', lwd = 2, legend = names(nest.mod.list), col = c(1, 'blue','red','orange','purple'), bty = 'n')
+
+#--------------------------------------------------------------------------------*
+# Trophic relative abundance
+#--------------------------------------------------------------------------------*
+
+head(trophic.ra)
+carnivore.mods = run.mods(trophic.ra,'carnivore')
+frugivore.mods = run.mods(trophic.ra,'frugivore')
+granivore.mods = run.mods(trophic.ra,'granivore')
+insectivore.mods = run.mods(trophic.ra,'insectivore')
+omnivore.mods = run.mods(trophic.ra,'omnivore')
+
+trophic.mod.list = list(carnivore.mods, frugivore.mods, granivore.mods, insectivore.mods, omnivore.mods)
+names(trophic.mod.list) = c('carnivore','frugivore','granivore', 'insectivore','omnivore')
+
+aic.trophic.mods = list()
+for (i in 1:length(trophic.mod.list)){
+  aic.trophic.mods[[i]] = aictab(trophic.mod.list[[i]], modnames = names(trophic.mod.list[[i]]))
+}
+
+names(aic.trophic.mods) = names(trophic.mod.list)
+
+aic.trophic.mods
+
+coef.mods = function(guild.mod.list){
+  modavg(guild.mod.list, 'imp', exclude = c('imp:can','I(imp^2)'))->modavg.imp
+  mod.avg.imp = data.frame(modavg.imp[c(1, 3:7)])
+  modavg(guild.mod.list, 'can', exclude = c('imp:can','I(can^2)'))->modavg.can
+  mod.avg.can = data.frame(modavg.can[c(1, 3:7)])
+  modavg(guild.mod.list, 'imp:can')->modavg.imp.can
+  mod.avg.impcan = data.frame(modavg.imp.can[c(1, 3:7)])
+  modavg(guild.mod.list, 'I(imp^2)')->modavg.imp2
+  mod.avg.imp2 = data.frame(modavg.imp2[c(1, 3:7)])
+  modavg(guild.mod.list, 'I(can^2)')->modavg.can2
+  mod.avg.can2 = data.frame(modavg.can2[c(1, 3:7)])
+  out.df = rbind(mod.avg.imp, mod.avg.can, mod.avg.impcan, mod.avg.imp2, mod.avg.can2)
+  return(out.df)
+}
+
+coef.trophic.mods = list()
+for (i in 1:length(trophic.mod.list)){
+  coef.trophic.mods[[i]] = coef.mods(trophic.mod.list[[i]])
+}
+
+names(coef.trophic.mods) = names(trophic.mod.list)
+coef.trophic.mods
+
+imp.pred.df = function(guild){
+  guild.mod.list = trophic.mod.list[[guild]]
+  imp.pred = data.frame(predicted = guild.mod.list[[11]]$fitted.values, imp = lc$imp)
+  imp.pred = imp.pred[order(imp.pred$imp),]
+  return(imp.pred)
+}
+
+can.pred.df = function(guild){
+  guild.mod.list = trophic.mod.list[[guild]]
+  can.pred = data.frame(predicted = guild.mod.list[[7]]$fitted.values, can = lc$can)
+  can.pred = can.pred[order(can.pred$can),]
+  return(can.pred)
+}
+
+par(mar = c(5,5.2,2,1))
+plot(predicted~imp, data = imp.pred.df('carnivore'), 
+     ylim = c(0,.8), type = 'l', lwd = 2, bty = 'l', 
+     xlab = '% Impervious', ylab = 'Relative abundance', cex.lab = 1.2)
+lines(predicted~imp, data = imp.pred.df('frugivore'), type = 'l', lwd = 2, col = 'blue')
+lines(predicted~imp, data = imp.pred.df('granivore'), type = 'l', lwd = 2, col = 'red')
+lines(predicted~imp, data = imp.pred.df('insectivore'), type = 'l', lwd = 2, col = 'orange')
+lines(predicted~imp, data = imp.pred.df('omnivore'), type = 'l', lwd = 2, col = 'purple')
+legend('topleft', lwd = 2, cex = .8,legend = names(trophic.mod.list), col = c(1, 'blue','red','orange','purple'), bty = 'n')
+
+
+plot(predicted~can, data = can.pred.df('carnivore'), 
+     ylim = c(0,.8), type = 'l', lwd = 2, bty = 'l', 
+     xlab = '% Canopy', ylab = 'Relative abundance', cex.lab = 1.2)
+lines(predicted~can, data = can.pred.df('frugivore'), type = 'l', lwd = 2, col = 'blue')
+lines(predicted~can, data = can.pred.df('granivore'), type = 'l', lwd = 2, col = 'red')
+lines(predicted~can, data = can.pred.df('insectivore'), type = 'l', lwd = 2, col = 'orange')
+lines(predicted~can, data = can.pred.df('omnivore'), type = 'l', lwd = 2, col = 'purple')
+legend('topleft', lwd = 2, cex = .8, legend = names(trophic.mod.list), col = c(1, 'blue','red','orange','purple'), bty = 'n')
+
+#--------------------------------------------------------------------------------*
+# Foraging-Trophic relative abundance
+#--------------------------------------------------------------------------------*
+
+head(foraging_trophic.ra)
+aerial_insectivore.mods = run.mods(foraging_trophic.ra,'aerial_insectivore')
+foliage_insectivore.mods = run.mods(foraging_trophic.ra,'foliage_insectivore')
+ground_insectivore.mods = run.mods(foraging_trophic.ra,'ground_insectivore')
+bark_insectivore.mods = run.mods(foraging_trophic.ra,'bark_insectivore')
+
+trophic.mod.list = list(aerial_insectivore.mods, foliage_insectivore.mods, ground_insectivore.mods, bark_insectivore.mods)
+names(trophic.mod.list) = c('aerial_insectivore','foliage_insectivore','ground_insectivore', 'bark_insectivore')
+
+aic.trophic.mods = list()
+for (i in 1:length(trophic.mod.list)){
+  aic.trophic.mods[[i]] = aictab(trophic.mod.list[[i]], modnames = names(trophic.mod.list[[i]]))
+}
+
+names(aic.trophic.mods) = names(trophic.mod.list)
+
+aic.trophic.mods
+
+coef.mods = function(guild.mod.list){
+  modavg(guild.mod.list, 'imp', exclude = c('imp:can','I(imp^2)'))->modavg.imp
+  mod.avg.imp = data.frame(modavg.imp[c(1, 3:7)])
+  modavg(guild.mod.list, 'can', exclude = c('imp:can','I(can^2)'))->modavg.can
+  mod.avg.can = data.frame(modavg.can[c(1, 3:7)])
+  modavg(guild.mod.list, 'imp:can')->modavg.imp.can
+  mod.avg.impcan = data.frame(modavg.imp.can[c(1, 3:7)])
+  modavg(guild.mod.list, 'I(imp^2)')->modavg.imp2
+  mod.avg.imp2 = data.frame(modavg.imp2[c(1, 3:7)])
+  modavg(guild.mod.list, 'I(can^2)')->modavg.can2
+  mod.avg.can2 = data.frame(modavg.can2[c(1, 3:7)])
+  out.df = rbind(mod.avg.imp, mod.avg.can, mod.avg.impcan, mod.avg.imp2, mod.avg.can2)
+  return(out.df)
+}
+
+coef.trophic.mods = list()
+for (i in 1:length(trophic.mod.list)){
+  coef.trophic.mods[[i]] = coef.mods(trophic.mod.list[[i]])
+}
+
+names(coef.trophic.mods) = names(trophic.mod.list)
+coef.trophic.mods
+
+imp.pred.df = function(guild){
+  guild.mod.list = trophic.mod.list[[guild]]
+  imp.pred = data.frame(predicted = guild.mod.list[[11]]$fitted.values, imp = lc$imp)
+  imp.pred = imp.pred[order(imp.pred$imp),]
+  return(imp.pred)
+}
+
+can.pred.df = function(guild){
+  guild.mod.list = trophic.mod.list[[guild]]
+  can.pred = data.frame(predicted = guild.mod.list[[7]]$fitted.values, can = lc$can)
+  can.pred = can.pred[order(can.pred$can),]
+  return(can.pred)
+}
+
+par(mar = c(5,5.2,2,1))
+plot(predicted~imp, data = imp.pred.df('aerial_insectivore'), 
+     ylim = c(0,.5), type = 'l', lwd = 2, bty = 'l', 
+     xlab = '% Impervious', ylab = 'Relative abundance', cex.lab = 1.2)
+lines(predicted~imp, data = imp.pred.df('foliage_insectivore'), type = 'l', lwd = 2, col = 'blue')
+lines(predicted~imp, data = imp.pred.df('ground_insectivore'), type = 'l', lwd = 2, col = 'red')
+lines(predicted~imp, data = imp.pred.df('bark_insectivore'), type = 'l', lwd = 2, col = 'orange')
+legend('topleft', lwd = 2, cex = .8, legend = names(trophic.mod.list), col = c(1, 'blue','red','orange'), bty = 'n')
+
+
+par(mar = c(5,5.2,2,1))
+plot(predicted~can, data = can.pred.df('aerial_insectivore'), 
+     ylim = c(0,.5), type = 'l', lwd = 2, bty = 'l', 
+     xlab = '% Canopy', ylab = 'Relative abundance', cex.lab = 1.2)
+lines(predicted~can, data = can.pred.df('foliage_insectivore'), type = 'l', lwd = 2, col = 'blue')
+lines(predicted~can, data = can.pred.df('ground_insectivore'), type = 'l', lwd = 2, col = 'red')
+lines(predicted~can, data = can.pred.df('bark_insectivore'), type = 'l', lwd = 2, col = 'orange')
+legend('topleft', lwd = 2, cex = .8, legend = names(trophic.mod.list), col = c(1, 'blue','red','orange'), bty = 'n')
+
+#####################################################################################################################################
 # Adjusted D2 function (roughly equivalent to R2, see Guisan
 # & Zimmermann 2000):
 
