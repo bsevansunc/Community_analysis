@@ -11,6 +11,7 @@ library(reshape2)
 library(plyr)
 library(unmarked)
 library(AICcmodavg)
+library(ggplot2)
 
 # Get data:
 
@@ -41,11 +42,11 @@ visits = as.matrix(visits, ncol = 1)
 
 # For total species abundance, make a frame summarizing distance by site:
 
-pc.ta = ddply(pc, .(site), summarize, max(d10))
-pc.ta$d20 = ddply(pc, .(site), summarize, max(d20))[,2]
-pc.ta$d30 = ddply(pc, .(site), summarize, max(d30))[,2]
-pc.ta$d40 = ddply(pc, .(site), summarize, max(d40))[,2]
-pc.ta$d50 = ddply(pc, .(site), summarize, max(d50))[,2]
+pc.ta = ddply(pc, .(site), summarize, d10 =  mean(d10))
+pc.ta$d20 = ddply(pc, .(site), summarize, mean(d20))[,2]
+pc.ta$d30 = ddply(pc, .(site), summarize, mean(d30))[,2]
+pc.ta$d40 = ddply(pc, .(site), summarize, mean(d40))[,2]
+pc.ta$d50 = ddply(pc, .(site), summarize, mean(d50))[,2]
 
 #---------------------------------------------------------------------*
 # ---- CREATE UNMARKED FRAME ----
@@ -58,10 +59,14 @@ names(pc.ta) = c('[0,10]', '(10,20]', '(20,30]', '(30,40]', '(40,50]')
 
 covs = data.frame(can = scale(lc$can), imp = scale(lc$imp), row.names = lc$site)
 
+# covs = data.frame(can = lc$can, imp = lc$imp, row.names = lc$site)
+
 umf <- unmarkedFrameDS(y=as.matrix(pc.ta), 
                        siteCovs=covs, survey="point",
                        dist.breaks=c(0, 10, 20, 30, 40, 50), 
                        unitsIn="m")
+
+hist(umf, xlab="distance (m)", main="", cex.lab=0.8, cex.axis=0.8)
 
 #---------------------------------------------------------------------*
 # ---- RUN MODELS ----
@@ -69,26 +74,25 @@ umf <- unmarkedFrameDS(y=as.matrix(pc.ta),
 
 # Vector of candidate model formulas:
 
+# models = c('~1 ~1',
+#            '~can  ~1',
+#            '~imp ~1',
+#            '~can + imp ~1',
+#            '~can + imp + imp:can ~1')
+
 models = c('~1 ~1',
-           '~can  ~1',
-           '~imp ~1',
-           '~can + imp ~1',
-           '~can + I(can^2) ~1',
-           '~can + imp + I(can^2) ~1',
-           '~can + imp + I(can^2) + I(imp^2) ~1',
-           '~can + imp + I(imp^2) ~1',
-           '~imp + I(imp^2) ~1',
            '~can + imp + imp:can ~1',
-           '~can + imp + imp:can + I(can^2) ~1',
-           '~can + imp + imp:can + I(imp^2) ~1',
-           '~can + imp + imp:can + I(can^2) + I(imp^2) ~1')
-
-
+           '~can + imp + imp:can  ~imp',
+           '~can + imp + imp:can ~can',
+           '~can + imp + imp:can ~imp + can',
+           '~can + imp + imp:can ~imp + can + imp:can')
+           
+           
 # Run models:
 
 mod.outs = list()
 for(i in 1:length(models)){
-  mod.outs[[i]] = distsamp(formula(models[i]),umf, output = 'density')
+  mod.outs[[i]] = distsamp(formula(models[i]),umf, output = 'abund')
 }
 
 names(mod.outs) = models
@@ -111,11 +115,7 @@ modSel(fl, nullmod = '~1 ~1')
 # ---- Predict model at sites ----
 #---------------------------------------------------------------------*
 
-mod.preds.site = predict(fl, type="det")
-
-coef(fl[[1]], type = 'det')
-
-backTransform(mod.preds.site,type = 'det')
+mod.preds.site = predict(fl, type="state")
 
 # Backtransform function to turn z values back to original scale:
 
@@ -147,7 +147,7 @@ p + geom_point(aes(color = z, size = z))+
 # ---- Predict model for canopy cover (imp at mean value) ----
 #---------------------------------------------------------------------*
 
-lc.can = seq(min(covs$can),max(covs$can), by = .01)
+lc.can = data.frame(can = seq(min(covs$can),max(covs$can), by = 1), imp = mean(covs$imp))
 lc.can = data.frame(can = lc.can, imp = rep(0,length(lc.can)))
 
 mod.preds.can = predict(fl, newdata = lc.can, type = 'state')
