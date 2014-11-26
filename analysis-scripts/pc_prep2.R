@@ -95,6 +95,8 @@ for(i in 1:dim(counts.lt)[2]){
   
   pcg = merge(t1,g, all = F)
 
+  pcg$nft = paste(pcg$nest, pcg$foraging_trophic)
+
 # Function to create the count frame for a given guild:
 
   guild.shape = function(guild){
@@ -112,6 +114,7 @@ for(i in 1:dim(counts.lt)[2]){
 nest.counts = guild.shape('nest')
 trophic.counts = guild.shape('trophic')
 foraging_trophic.counts = guild.shape('foraging_trophic')
+nft.counts = guild.shape('nft')
 
 #--------------------------------------------------------------------------------*
 # Log-transformed count data
@@ -130,6 +133,8 @@ foraging_trophic.counts = guild.shape('foraging_trophic')
 nest.counts.lt = guild.log.transform(nest.counts)
 trophic.counts.lt = guild.log.transform(trophic.counts)
 foraging_trophic.counts.lt = guild.log.transform(foraging_trophic.counts)
+nft.lt = guild.log.transform(nft.counts)
+
 
 #--------------------------------------------------------------------------------*
 # ---- Relative abundance by guild ----
