@@ -248,3 +248,4 @@ y0 =   ddply(y0, c('site','year','species'), numcolwise(sum))
 
 write.csv(y0, 'gdist_data/y0.csv', row.names = F)
 
+
