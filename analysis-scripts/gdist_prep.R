@@ -73,6 +73,10 @@ pc = merge(pc, data.frame(site = unique(lc$site)), all = F)
 
 lc = lc[,-c(2:3)]
 
+# NE2 doesn't have any count data ... remove:
+
+lc = lc[lc$site!='NE2',]
+
 write.csv(lc, 'gdist_data/site_covs.csv', row.names = F)
 
 #-------------------------------------------------------------------------*
