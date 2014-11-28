@@ -224,6 +224,36 @@ table(pc$observer)
 pc[pc$observer == 'cw','observer']<-'ckw'
 
 #-------------------------------------------------------------------------*
+# ---- Multiple counts for some sites  ----
+#-------------------------------------------------------------------------*
+
+# A few still needed fixing ... multiple temp listings for CAMPLIBMD1:
+
+pc[pc$site == 'CAMPLIBMD1' & pc$year == 2010,]
+
+pc[pc$site == 'CAMPLIBMD1' & pc$year == 2010,'temp']<-66
+
+# One Nora observation for MCCOCHMD1?
+
+pc[pc$site == 'MCCOCHRMD1' & pc$year == 2009,]
+
+row.names(pc) = 1:nrow(pc)
+
+pc = pc[-3162,]
+
+row.names(pc) = 1:nrow(pc)
+
+# ODELVINMD2, temperature:
+
+pc[pc$site == 'ODELVINMD2' & pc$year == 2009,'temp']<-68
+
+# ROHRSALMD1, temperature:
+
+pc[pc$site == 'ROHRSALMD1' & pc$year == 2010,]
+
+pc[pc$site == 'ROHRSALMD1' & pc$year == 2010,'temp']<-71
+
+#-------------------------------------------------------------------------*
 # ---- Write observation-level covariates  ----
 #-------------------------------------------------------------------------*
 
