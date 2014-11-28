@@ -99,6 +99,18 @@ yearlyCovFun = function(){
 
 t1 = yearlyCovFun()
 
+#--------------------------------------------------------------------------------*
+# ---- CREATE UNMARKED FRAME ----
+#--------------------------------------------------------------------------------*
+
+umfMaker = function(species.of.interest){
+  y0 = y.Sp(species.of.interest)
+  s_covs = site_covsFrame()
+  y_covs = yearlyCovFun()
+  distances = seq(0,50,10)
+  unmarkedFrameGDS(y=y0, siteCovs=s_covs, yearlySiteCovs=y_covs, numPrimary=3, 
+                   dist.breaks=distances, survey="point", unitsIn="m")
+  }
 
 #--------------------------------------------------------------------------------*
 # ---- CALCULATE TOTAL SPECIES ABUNDANCE BY IMPERVIOUS AND CANOPY COVER ----
