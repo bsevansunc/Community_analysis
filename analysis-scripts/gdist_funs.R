@@ -97,24 +97,41 @@ yearlyCovFun = function(){
   return(out.list)
   }
 
-t1 = yearlyCovFun()
+t = yearlyCovFun()
+
+t2  = t[[4]]
+
+t2[is.na(t2)]<-NA
+
 
 #--------------------------------------------------------------------------------*
 # ---- CREATE UNMARKED FRAME ----
 #--------------------------------------------------------------------------------*
 
 umfMaker = function(species.of.interest){
-  y0 = y.Sp(species.of.interest)
+  y1 = y.Sp(species.of.interest)
   s_covs = site_covsFrame()
   y_covs = yearlyCovFun()
   distances = seq(0,50,10)
+  # Testing if NA's are the problem:
+  y1 = na.omit(y1)
+  y_covs = na.omit(y_covs)
+  s_covs = merge(y0, s_covs, by.x = row.names(y1), by.y = row.names(s_covs), all = F)
   unmarkedFrameGDS(y=y0, siteCovs=s_covs, yearlySiteCovs=y_covs, numPrimary=3, 
                    dist.breaks=distances, survey="point", unitsIn="m")
   }
 
+umf.cach = umfMaker('cach')
+t = na.omit(umf.cach)
+
 #--------------------------------------------------------------------------------*
 # ---- CALCULATE TOTAL SPECIES ABUNDANCE BY IMPERVIOUS AND CANOPY COVER ----
 #================================================================================*
+
+umf.cach = umfMaker('cach')
+
+mod$Null <- gdistsamp(lambdaformula=~1, phiformula=~1, pformula=~1, 
+                       umf.cach, output="abund", K=20)
 
 #---------------------------------------------------------------------*
 # ---- CREATE UNMARKED FRAME ----
@@ -139,6 +156,8 @@ umf.fun = function(sp, yr) {
 }
 
 umf.fun('eato', 2009)
+
+
 
 #---------------------------------------------------------------------*
 # ---- RUN MODELS ----
