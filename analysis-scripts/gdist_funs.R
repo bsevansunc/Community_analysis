@@ -12,6 +12,13 @@ y0 = read.csv('gdist_data/y0.csv')
 site_covs = read.csv('gdist_data/site_covs.csv')
 obs_covs = read.csv('gdist_data/obs_covs.csv')
 
+#--------------------------------------------------------------------------------*
+# ---- DATA PREP ----
+#================================================================================*
+
+#--------------------------------------------------------------------------------*
+# ---- Prep observation (y0) frame ----
+#--------------------------------------------------------------------------------*
 # Function to pull out year and make d matrix:
 
 y.SpYr = function(species.of.interest, yr){
@@ -37,15 +44,60 @@ y.SpYr = function(species.of.interest, yr){
   return(merge(sites, y.sub2, all = T))
 }
 
+# Create observation matrix of counts (input)
+
 y.Sp = function(species.of.interest){
   y09 = y.SpYr(species.of.interest, 2009)
   y10 = y.SpYr(species.of.interest, 2010)
   y12 = y.SpYr(species.of.interest, 2012)
   df = cbind(y09,y10[,-1],y12[,-1])
   row.names(df) = df[,1]
-  return(df[,-1])
+  df = df[,-1]
+  return(as.matrix(df))
 }
 
+#--------------------------------------------------------------------------------*
+# ---- Prep site covariates frame ----
+#--------------------------------------------------------------------------------*
+
+site_covsFrame = function(){
+  data.frame(can = scale(site_covs$can), 
+  imp = scale(site_covs$imp), 
+  row.names = site_covs$site)
+}
+
+#--------------------------------------------------------------------------------*
+# ---- Prep yearly site covariates frame ----
+#--------------------------------------------------------------------------------*
+
+# Function to convert a obs_cov to a scaled variable in wide format:
+
+wideObs = function(variable){
+  # Subset frame to variable of interest and grouping variables:
+  df1 = data.frame(site = obs_covs$site, year = obs_covs$year, 
+                   var = obs_covs[,variable])
+  # Scale variable if numeric or integer:
+  if (variable == 'day'|variable == 'temp') {
+    df1$var = scale(df1$var)
+  }
+  # Reshape to wide format, with year as columns:
+  melt.df = melt(df1, id.vars = c('site','year'), measure.vars = 'var')
+  cast.df = cast(melt.df, site ~ year)
+  cast.df = cast.df[,-1]
+  return(as.data.frame(cast.df))
+}
+
+yearlyCovFun = function(){
+  obsCov1 = c('day','observer','temp','sky')
+  out.list = list()
+  for (i in 1:length(obsCov1)){
+    out.list[[i]] = wideObs(obsCov1[i])
+  }
+  names(out.list) = obsCov1
+  return(out.list)
+  }
+
+t1 = yearlyCovFun()
 
 
 #--------------------------------------------------------------------------------*
