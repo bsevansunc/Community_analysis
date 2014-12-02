@@ -114,10 +114,18 @@ umfMaker = function(species.of.interest){
   y_covs = yearlyCovFun()
   distances = seq(0,50,10)
   # Testing if NA's are the problem:
-  y1 = na.omit(y1)
-  y_covs = na.omit(y_covs)
-  s_covs = merge(y0, s_covs, by.x = row.names(y1), by.y = row.names(s_covs), all = F)
-  unmarkedFrameGDS(y=y0, siteCovs=s_covs, yearlySiteCovs=y_covs, numPrimary=3, 
+  y1 = data.frame(na.omit(y1))
+    y1$site = row.names(y1)
+    y_covs1 = na.omit(y_covs[[1]])
+    y_covs2 = na.omit(y_covs[[2]])
+    y_covs3 = na.omit(y_covs[[3]])
+    y_covs4 = na.omit(y_covs[[4]])
+    y_covs = list(y_covs1, y_covs2, y_covs3, y_covs4)
+    s_covs$site = row.names(s_covs)
+    s_covs = merge(s_covs,y1, by = 'site', all = F)[,2:3]
+    y1 = as.matrix(y1[,-16])
+  #
+  unmarkedFrameGDS(y=y1, siteCovs=s_covs, yearlySiteCovs=y_covs, numPrimary=3, 
                    dist.breaks=distances, survey="point", unitsIn="m")
   }
 

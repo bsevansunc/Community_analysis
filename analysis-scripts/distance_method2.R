@@ -24,49 +24,68 @@ lc = read.csv('derived-data/pts_lc100.csv')
 pc = pc[pc$site!='DRAKBERMD1',]
 lc = lc[lc$site!='DRAKBERMD1',]
 
-
 # Reduce site and count frames to just the sites with point counts:
 
 lc = merge(lc, data.frame(site = unique(pc$site)), all = F)
 
 pc = merge(pc, data.frame(site = unique(lc$site)), all = F)
 
-# For each site, get the number of surveys and add to the lc frame:
+# 2006 is a typo! A little digging reveals that the year is most likely 2009:
 
-visits = ddply(pc, .(site), summarize, length(unique(year)))[,2]
-visits = as.matrix(visits, ncol = 1)
+pc[pc$year == 2006,'year'] <- 2009
+
+# Remove eust, ropi, and hosp:
+
+pc = pc[pc$species!='eust' & pc$species!='hosp' & pc$species!='ropi',]
+
+# Maintain only necessary columns:
+
+pc1 = pc[,c(1,2,6:11)]
+
+# Function to subset to a given species by species:
+
+pc.sub = function(sp, year){
+  # Subset to year and species
+  df = pc1[pc1$species == sp & pc1$year == year,]
+  # Remove year and species columns:
+  df = df[,-c(2,3)]
+  # Combine counts at a given site and distance class:
+  df = ddply(df, c('site'), numcolwise(sum))
+  # Merge with lc to get 0's (and convert NA's to 0):
+  df = merge(df, lc, all =T)
+  df[is.na(df)] <-0
+  # Remove spatial location columns:
+  df = df[,-c(7:8)]
+  return(df)
+  } 
 
 #--------------------------------------------------------------------------------*
 # ---- CALCULATE TOTAL SPECIES ABUNDANCE BY IMPERVIOUS AND CANOPY COVER ----
 #================================================================================*
 
-# For total species abundance, make a frame summarizing distance by site:
-
-pc.ta = ddply(pc, .(site), summarize, d10 =  mean(d10))
-pc.ta$d20 = ddply(pc, .(site), summarize, mean(d20))[,2]
-pc.ta$d30 = ddply(pc, .(site), summarize, mean(d30))[,2]
-pc.ta$d40 = ddply(pc, .(site), summarize, mean(d40))[,2]
-pc.ta$d50 = ddply(pc, .(site), summarize, mean(d50))[,2]
-
 #---------------------------------------------------------------------*
 # ---- CREATE UNMARKED FRAME ----
 #---------------------------------------------------------------------*
 
-row.names(pc.ta) = pc.ta[,1]  # Sets sites as row names
-pc.ta = pc.ta[,-1]            # Removes sites from the count frame
+# Function to create unmarked frame:
 
-names(pc.ta) = c('[0,10]', '(10,20]', '(20,30]', '(30,40]', '(40,50]')
-
-covs = data.frame(can = scale(lc$can), imp = scale(lc$imp), row.names = lc$site)
-
-# covs = data.frame(can = lc$can, imp = lc$imp, row.names = lc$site)
-
-umf <- unmarkedFrameDS(y=as.matrix(pc.ta), 
+umf.fun = function(sp, yr) {
+  pc = pc.sub(sp, yr)
+  lc = pc[,c(1,7:8)]
+  row.names(pc) = pc[,1]  # Sets sites as row names
+  pc = pc[,-c(1, 7:8)]       # Removes sites and lc from the count frame
+  # Make a new covariate frame:
+  covs = data.frame(can = scale(lc$can), 
+                    imp = scale(lc$imp), row.names = lc$site)
+  # Create unmarked frame:
+  umf <- unmarkedFrameDS(y=as.matrix(pc), 
                        siteCovs=covs, survey="point",
                        dist.breaks=c(0, 10, 20, 30, 40, 50), 
                        unitsIn="m")
+  return(umf)
+}
 
-hist(umf, xlab="distance (m)", main="", cex.lab=0.8, cex.axis=0.8)
+umf.fun('eato', 2009)
 
 #---------------------------------------------------------------------*
 # ---- RUN MODELS ----
@@ -74,38 +93,43 @@ hist(umf, xlab="distance (m)", main="", cex.lab=0.8, cex.axis=0.8)
 
 # Vector of candidate model formulas:
 
-# models = c('~1 ~1',
-#            '~can  ~1',
-#            '~imp ~1',
-#            '~can + imp ~1',
-#            '~can + imp + imp:can ~1')
-
-models = c('~1 ~1',
-           '~can + imp + imp:can ~1',
-           '~can + imp + imp:can  ~imp',
-           '~can + imp + imp:can ~can',
-           '~can + imp + imp:can ~imp + can',
-           '~can + imp + imp:can ~imp + can + imp:can')
+models = c('~can ~1',
+           '~can ~ imp',
+           '~can ~ imp + I(imp^2)',
+           '~1 ~1')
            
            
-# Run models:
+# Run models for a given year and species:
 
+mod.run = function(sp, yr){
 mod.outs = list()
 for(i in 1:length(models)){
-  mod.outs[[i]] = distsamp(formula(models[i]),umf, output = 'abund')
+  mod.outs[[i]] = distsamp(formula(models[i]),umf.fun(sp, yr), output = 'abund')
+}
+names(mod.outs) = models
+# Model table:
+fl = fitList(fits = mod.outs)
+mod.tab = modSel(fl, nullmod = '~1 ~1')
+return(list(fl, mod.tab))
 }
 
-names(mod.outs) = models
 
-#---------------------------------------------------------------------*
-# ---- Model table ----
-#---------------------------------------------------------------------*
+# Predict model at sites:
+mod.plot = function(sp, yr){
+  mods = mod.run(sp, yr)
+  mod.preds.site = predict(mods[[1]], type="state")
+  test = cbind(lc, mod.preds.site)
+  t1 = test[ order(test[,5]), ]
+  plot(Predicted~imp, data = t1, type = 'l', lwd = 2, 
+     xlab = '% Impervious', ylab = 'Predicted abundance',
+     bty = 'l', ylim = c(0,max(upper)))
+  lines(lower~imp, data = t1, type = 'l', lwd = 1, lty = 2)
+  lines(upper~imp, data = t1, type = 'l', lwd = 1, lty = 2)
+  }
 
-fl = fitList(fits = mod.outs)
+mod.run('sosp',2009)
+mod.plot('sosp',2009)
 
-aictab(mod.outs, modnames = models)
-
-modSel(fl, nullmod = '~1 ~1')
 
 #---------------------------------------------------------------------*
 # ---- Model-averaged parameter estimates ----
@@ -115,7 +139,9 @@ modSel(fl, nullmod = '~1 ~1')
 # ---- Predict model at sites ----
 #---------------------------------------------------------------------*
 
-mod.preds.site = predict(fl, type="state")
+
+
+
 
 # Backtransform function to turn z values back to original scale:
 
