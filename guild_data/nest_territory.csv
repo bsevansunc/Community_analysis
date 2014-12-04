@@ -1,47 +1,46 @@
-alpha,latin,common,nest_min,nest_max,nest_mean,nest_n,nest_ref,nest_loc,nest_note,territory_min,territory_max,territory_mean,territory_n,territory_ref,territory_note,flock
-acfl,Empidonax virescens ,Acadian Flycatcher,1.07,16.76,4.06,138,Walkinshaw 1966,Tree-branch,NA,0.73,1.7,1.2,80,Walkinshaw 1966,NA,N
-amcr,Corvus brachyrhynchos ,American Crow,3.7,30,10.6,50,Clapp and Banks 1993,Tree-branch,NA,0.8,95,15.5,77,McGowan 2001,NA,Y
-amgo,Spinus tristis ,American Goldfinch,0.6,2.92,1.39,102,Holcomb 1969,Shrub,NA,NA,NA,NA,NA,NA,No available information,N
-amro,Turdus migratorius ,American Robin,0.5,32,3.6,257,BNA,Tree-branch,NA,0.11,0.21,0.16,33,Howell 1942,mean is average of range,Y
-baor,Icterus galbula ,Baltimore Oriole,4.5,22,11.21,63,Graf and Greeley 1976,Tree-branch,NA,0.15,1.86,0.91,12,BNA,NA,N
-bars,Hirundo rustica ,Barn Swallow,0.3,30,2.95,2563,Campbell et al. 1997,Building,"Not really mean, 57% of nests between 2.4 and 3.5m",0.0004,0.0078,0.0041,NA,Moller 1990,mean is average of range,Y
-bggn,Polioptila caerulea ,Blue-gray Gnatcatcher,0.8,24.4,8.5,557,BNA,Tree-branch,NA,0.9,3,1.8,9,Root 1969,NA,N
-bhco,Molothrus ater ,Brown-headed Cowbird,NA,NA,NA,NA,NA,Generalist,"Of course, bhco",NA,NA,NA,NA,NA,NA,Y
-blja,Cyanocitta cristata ,Blue Jay,1.37,7.62,4,19,Taylor 1965,Tree-branch,Range of this is less than BNA,,NA,NA,NA,BNA,Does not maintain territories,Y
-brth,1,Brown Thrasher,,,,,,,,,,,,,,
-cach,1,Carolina Chickadee,,,,,,,,,,,,,,
-carw,1,Carolina Wren,,,,,,,,,,,,,,
-cedw,0,Cedar Waxwing,,,,,,,,,,,,,,
-chsp,1,Chipping Sparrow,,,,,,,,,,,,,,
-chsw,0,Chimney Swift,,,,,,,,,,,,,,
-cogr,0,Common Grackly,,,,,,,,,,,,,,
-coye,1,Common Yellowthroat,,,,,,,,,,,,,,
-dowo,0,Downy Woodpecker,,,,,,,,,,,,,,
-eabl,0,Eastern Bluebird,,,,,,,,,,,,,,
-eato,0,Eastern Towhee,,,,,,,,,,,,,,
-eawp,0,Eastern Wood Peewee,,,,,,,,,,,,,,
-ficr,0,Fish Crow,,,,,,,,,,,,,,
-gcfl,0,Great-creasted Flycatcher,,,,,,,,,,,,,,
-grca,0,Gray Catbird,,,,,,,,,,,,,,
-hawo,0,Hairy Woodpecker,,,,,,,,,,,,,,
-hofi,0,House Finch,,,,,,,,,,,,,,
-howr,1,House Wren,,,,,,,,,,,,,,
-inbu,0,Indigo Bunting,,,,,,,,,,,,,,
-modo,0,Morning Dove,,,,,,,,,,,,,,
-noca,1,Northern Cardinal,,,,,,,,,,,,,,
-nomo,1,Northern Mockingbird,,,,,,,,,,,,,,
-nopa,0,Northern Parula,,,,,,,,,,,,,,
-oror,0,Orchard Oriole,,,,,,,,,,,,,,
-oven,1,Ovenbird,,,,,,,,,,,,,,
-piwo,0,Piliated Woodpecker,,,,,,,,,,,,,,
-rbnu,0,Red-breasted Nuthatch,,,,,,,,,,,,,,
-revi,1,Red-eyed Virio,,,,,,,,,,,,,,
-rsha,0,Red-shouldered Hawk,,,,,,,,,,,,,,
-rthu,0,Ruby-throated Hummingbird,,,,,,,,,,,,,,
-rwbl,0,Red-winged Blackbird,,,,,,,,,,,,,,
-scta,1,Scarlet Tanager,,,,,,,,,,,,,,
-sosp,1,Song Sparrow,,,,,,,,,,,,,,
-tuti,1,Eastern Tufted Titmouse,,,,,,,,,,,,,,
-wbnu,1,White-breasted Nuthatch,,,,,,,,,,,,,,
-woth,1,Wood Thrush,,,,,,,,,,,,,,
-ysfl,0,Yellow-shafted Flicker,,,,,,,,,,,,,,
+alpha,latin,common,nest_min,nest_max,nest_mean,nest_n,nest_ref,nest_type,nest_loc,nest_note,flock
+acfl,Empidonax virescens ,Acadian Flycatcher,1.07,16.76,4.06,138,Walkinshaw 1966,cup,Tree-branch,NA,N
+amcr,Corvus brachyrhynchos ,American Crow,3.7,30,10.6,50,Clapp and Banks 1993,cup,Tree-branch,NA,Y
+amgo,Spinus tristis ,American Goldfinch,0.6,2.92,1.39,102,Holcomb 1969,cup,Shrub,NA,N
+amro,Turdus migratorius ,American Robin,0.5,32,3.6,257,BNA,cup,Tree-branch,NA,Y
+baor,Icterus galbula ,Baltimore Oriole,4.5,22,11.21,63,Graf and Greeley 1976,cup,Tree-branch,NA,N
+bars,Hirundo rustica ,Barn Swallow,0.3,30,2.95,2563,Campbell et al. 1997,cup,Building,"Not really mean, average of nests between 2.4 and 3.5m that comprised 57% of found nests",Y
+bggn,Polioptila caerulea ,Blue-gray Gnatcatcher,0.8,24.4,8.5,557,BNA,cup,Tree-branch,NA,N
+bhco,Molothrus ater ,Brown-headed Cowbird,NA,NA,NA,NA,BNA,cup,Generalist,"Of course, bhco",Y
+blja,Cyanocitta cristata ,Blue Jay,1.37,7.62,4,19,Taylor 1965,cup,Tree-branch,Range of this is less than BNA,Y
+brth,Toxostoma rufum ,Brown Thrasher,0,2.1,1.8,37,BNA,cup,Shrub,Average based on Partin 1977,N
+cach,Poecile carolinensis ,Carolina Chickadee,0.7,7.6,3.4,55,Albano 1992,cavity,Tree-trunk,NA,W
+carw,Thryothorus ludovicianus ,Carolina Wren,NA,NA,NA,NA,BNA,Cup-cavity,Shrub-building,"Nest heights highly variable, depending on substrate",N
+cedw,Bombycilla cedrorum ,Cedar Waxwing,1.1,15.2,2.59,24,BNA,cup,Tree-branch,"Provided mean height is actually the median, reported from Mountjoy 1987",Y
+chsp,Spizella passerina ,Chipping Sparrow,0.5,10,2.6,224,BNA,cup,Tree-shrub,NA,W
+cogr,Quiscalus quiscula ,Common Grackle,0.2,22,2.5,2601,BNA,cup,Tree-shrub,NA,Y
+coye,Geothlypis trichas ,Common Yellowthroat,0,0.1,0,NA,BNA,cup,Ground,"Ground-nester, no specific nest height data gathered",N
+dowo,Picoides pubescens ,Downy Woodpecker,1,9.1,4.74,19,Conner et al. 1975,cavity,Tree-trunk,Conner used because sites were from Virginia,N
+eabl,Sialia sialis ,Eastern Bluebird,0.5,4,1.5,NA,BNA,cavity,Tree-Nestbox,These are the heights of artificial cavities,W
+eato,Pipilo erythrophthalmus ,Eastern Towhee,0,5.5,0,NA,BNA,cup,Ground-shrub,Almost all sites in nearby New Jersey were ground. Not true mean,W
+eawp,0,Eastern Wood Peewee,,,,,,,,,
+ficr,0,Fish Crow,,,,,,,,,
+gcfl,0,Great-creasted Flycatcher,,,,,,,,,
+grca,0,Gray Catbird,,,,,,,,,
+hawo,0,Hairy Woodpecker,,,,,,,,,
+hofi,0,House Finch,,,,,,,,,
+howr,1,House Wren,,,,,,,,,
+inbu,0,Indigo Bunting,,,,,,,,,
+modo,0,Morning Dove,,,,,,,,,
+noca,1,Northern Cardinal,,,,,,,,,
+nomo,1,Northern Mockingbird,,,,,,,,,
+nopa,0,Northern Parula,,,,,,,,,
+oror,0,Orchard Oriole,,,,,,,,,
+oven,1,Ovenbird,,,,,,,,,
+piwo,0,Piliated Woodpecker,,,,,,,,,
+rbnu,0,Red-breasted Nuthatch,,,,,,,,,
+revi,1,Red-eyed Virio,,,,,,,,,
+rsha,0,Red-shouldered Hawk,,,,,,,,,
+rthu,0,Ruby-throated Hummingbird,,,,,,,,,
+rwbl,0,Red-winged Blackbird,,,,,,,,,
+scta,1,Scarlet Tanager,,,,,,,,,
+sosp,1,Song Sparrow,,,,,,,,,
+tuti,1,Eastern Tufted Titmouse,,,,,,,,,
+wbnu,1,White-breasted Nuthatch,,,,,,,,,
+woth,1,Wood Thrush,,,,,,,,,
+ysfl,0,Yellow-shafted Flicker,,,,,,,,,
