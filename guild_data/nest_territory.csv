@@ -1,4 +1,4 @@
-alpha,latin,common,nest_min,nest_max,nest_mean,nest_n,nest_ref,nest_type,nest_loc,nest_note,flock
+alpha,latin,common,nest_min,nest_max,nest_mean,nest_n,nest_ref,nest_type,nest_loc,nest_note,summer_flock
 acfl,Empidonax virescens ,Acadian Flycatcher,1.07,16.76,4.06,138,Walkinshaw 1966,cup,Tree-branch,NA,N
 amcr,Corvus brachyrhynchos ,American Crow,3.7,30,10.6,50,Clapp and Banks 1993,cup,Tree-branch,NA,Y
 amgo,Spinus tristis ,American Goldfinch,0.6,2.92,1.39,102,Holcomb 1969,cup,Shrub,NA,N
@@ -9,21 +9,21 @@ bggn,Polioptila caerulea ,Blue-gray Gnatcatcher,0.8,24.4,8.5,557,BNA,cup,Tree-br
 bhco,Molothrus ater ,Brown-headed Cowbird,NA,NA,NA,NA,BNA,cup,Generalist,"Of course, bhco",Y
 blja,Cyanocitta cristata ,Blue Jay,1.37,7.62,4,19,Taylor 1965,cup,Tree-branch,Range of this is less than BNA,Y
 brth,Toxostoma rufum ,Brown Thrasher,0,2.1,1.8,37,BNA,cup,Shrub,Average based on Partin 1977,N
-cach,Poecile carolinensis ,Carolina Chickadee,0.7,7.6,3.4,55,Albano 1992,cavity,Tree-trunk,NA,W
+cach,Poecile carolinensis ,Carolina Chickadee,0.7,7.6,3.4,55,Albano 1992,cavity,Tree-trunk,NA,N
 carw,Thryothorus ludovicianus ,Carolina Wren,NA,NA,NA,NA,BNA,Cup-cavity,Shrub-building,"Nest heights highly variable, depending on substrate",N
 cedw,Bombycilla cedrorum ,Cedar Waxwing,1.1,15.2,2.59,24,BNA,cup,Tree-branch,"Provided mean height is actually the median, reported from Mountjoy 1987",Y
-chsp,Spizella passerina ,Chipping Sparrow,0.5,10,2.6,224,BNA,cup,Tree-shrub,NA,W
+chsp,Spizella passerina ,Chipping Sparrow,0.5,10,2.6,224,BNA,cup,Tree-shrub,NA,N
 cogr,Quiscalus quiscula ,Common Grackle,0.2,22,2.5,2601,BNA,cup,Tree-shrub,NA,Y
 coye,Geothlypis trichas ,Common Yellowthroat,0,0.1,0,NA,BNA,cup,Ground,"Ground-nester, no specific nest height data gathered",N
 dowo,Picoides pubescens ,Downy Woodpecker,1,9.1,4.74,19,Conner et al. 1975,cavity,Tree-trunk,Conner used because sites were from Virginia,N
-eabl,Sialia sialis ,Eastern Bluebird,0.5,4,1.5,NA,BNA,cavity,Tree-Nestbox,These are the heights of artificial cavities,W
-eato,Pipilo erythrophthalmus ,Eastern Towhee,0,5.5,0,NA,BNA,cup,Ground-shrub,Almost all sites in nearby New Jersey were ground. Not true mean,W
-eawp,0,Eastern Wood Peewee,,,,,,,,,
-ficr,0,Fish Crow,,,,,,,,,
-gcfl,0,Great-creasted Flycatcher,,,,,,,,,
-grca,0,Gray Catbird,,,,,,,,,
-hawo,0,Hairy Woodpecker,,,,,,,,,
-hofi,0,House Finch,,,,,,,,,
+eabl,Sialia sialis ,Eastern Bluebird,0.5,4,1.5,NA,BNA,cavity,Tree-Nestbox,These are the heights of artificial cavities,N
+eato,Pipilo erythrophthalmus ,Eastern Towhee,0,5.5,0,NA,BNA,cup,Ground-shrub,Almost all sites in nearby New Jersey were ground. Not true mean,N
+eawp,Contopus virens ,Eastern Wood-Pewee,1.2,21.4,8.6,NA,BNA,cup,Tree-branch,"Nest card data, no sample size provided.",N
+ficr,Corvus ossifragus ,Fish Crow,1.8,24.4,8.6,160,BNA,cup,Tree-branch,NA,Y
+gcfl,Myiarchus crinitus ,Great Crested Flycatcher,0,21.3,8.5,13,BNA,cavity,Tree-trunk,"Range provided by BNA, mean from Stauffer and Best 1980, though this study evaluated riparian habitat",N
+grca,Dumetella carolinensis ,Gray Catbird,0.3,15,1.5,53,BNA,cup,Shrub,NA,N
+hawo,Picoides villosus ,Hairy Woodpecker,1,18.3,8.8,NA,BNA,cavity,Tree-trunk,No sample size provided,N
+hofi,Haemorhous mexicanus ,House Finch,1,20,4.78,278,BNA,cup,Tree-branch,NA,N
 howr,1,House Wren,,,,,,,,,
 inbu,0,Indigo Bunting,,,,,,,,,
 modo,0,Morning Dove,,,,,,,,,
