@@ -1,46 +1,46 @@
-alpha,latin,common,nest_min,nest_max,nest_mean,nest_n,nest_ref,nest_type,nest_loc,nest_note,summer_flock
-acfl,Empidonax virescens ,Acadian Flycatcher,1.07,16.76,4.06,138,Walkinshaw 1966,cup,Tree-branch,NA,N
-amcr,Corvus brachyrhynchos ,American Crow,3.7,30,10.6,50,Clapp and Banks 1993,cup,Tree-branch,NA,Y
-amgo,Spinus tristis ,American Goldfinch,0.6,2.92,1.39,102,Holcomb 1969,cup,Shrub,NA,N
-amro,Turdus migratorius ,American Robin,0.5,32,3.6,257,BNA,cup,Tree-branch,NA,Y
-baor,Icterus galbula ,Baltimore Oriole,4.5,22,11.21,63,Graf and Greeley 1976,cup,Tree-branch,NA,N
-bars,Hirundo rustica ,Barn Swallow,0.3,30,2.95,2563,Campbell et al. 1997,cup,Building,"Not really mean, average of nests between 2.4 and 3.5m that comprised 57% of found nests",Y
-bggn,Polioptila caerulea ,Blue-gray Gnatcatcher,0.8,24.4,8.5,557,BNA,cup,Tree-branch,NA,N
-bhco,Molothrus ater ,Brown-headed Cowbird,NA,NA,NA,NA,BNA,cup,Generalist,"Of course, bhco",Y
-blja,Cyanocitta cristata ,Blue Jay,1.37,7.62,4,19,Taylor 1965,cup,Tree-branch,Range of this is less than BNA,Y
-brth,Toxostoma rufum ,Brown Thrasher,0,2.1,1.8,37,BNA,cup,Shrub,Average based on Partin 1977,N
-cach,Poecile carolinensis ,Carolina Chickadee,0.7,7.6,3.4,55,Albano 1992,cavity,Tree-trunk,NA,N
-carw,Thryothorus ludovicianus ,Carolina Wren,NA,NA,NA,NA,BNA,Cup-cavity,Shrub-building,"Nest heights highly variable, depending on substrate",N
-cedw,Bombycilla cedrorum ,Cedar Waxwing,1.1,15.2,2.59,24,BNA,cup,Tree-branch,"Provided mean height is actually the median, reported from Mountjoy 1987",Y
-chsp,Spizella passerina ,Chipping Sparrow,0.5,10,2.6,224,BNA,cup,Tree-shrub,NA,N
-cogr,Quiscalus quiscula ,Common Grackle,0.2,22,2.5,2601,BNA,cup,Tree-shrub,NA,Y
-coye,Geothlypis trichas ,Common Yellowthroat,0,0.1,0,NA,BNA,cup,Ground,"Ground-nester, no specific nest height data gathered",N
-dowo,Picoides pubescens ,Downy Woodpecker,1,9.1,4.74,19,Conner et al. 1975,cavity,Tree-trunk,Conner used because sites were from Virginia,N
-eabl,Sialia sialis ,Eastern Bluebird,0.5,4,1.5,NA,BNA,cavity,Tree-Nestbox,These are the heights of artificial cavities,N
-eato,Pipilo erythrophthalmus ,Eastern Towhee,0,5.5,0,NA,BNA,cup,Ground-shrub,Almost all sites in nearby New Jersey were ground. Not true mean,N
-eawp,Contopus virens ,Eastern Wood-Pewee,1.2,21.4,8.6,NA,BNA,cup,Tree-branch,"Nest card data, no sample size provided.",N
-ficr,Corvus ossifragus ,Fish Crow,1.8,24.4,8.6,160,BNA,cup,Tree-branch,NA,Y
-gcfl,Myiarchus crinitus ,Great Crested Flycatcher,0,21.3,8.5,13,BNA,cavity,Tree-trunk,"Range provided by BNA, mean from Stauffer and Best 1980, though this study evaluated riparian habitat",N
-grca,Dumetella carolinensis ,Gray Catbird,0.3,15,1.5,53,BNA,cup,Shrub,NA,N
-hawo,Picoides villosus ,Hairy Woodpecker,1,18.3,8.8,NA,BNA,cavity,Tree-trunk,No sample size provided,N
-hofi,Haemorhous mexicanus ,House Finch,1,20,4.78,278,BNA,cup,Tree-branch,NA,N
-howr,1,House Wren,,,,,,,,,
-inbu,0,Indigo Bunting,,,,,,,,,
-modo,0,Morning Dove,,,,,,,,,
-noca,1,Northern Cardinal,,,,,,,,,
-nomo,1,Northern Mockingbird,,,,,,,,,
-nopa,0,Northern Parula,,,,,,,,,
-oror,0,Orchard Oriole,,,,,,,,,
-oven,1,Ovenbird,,,,,,,,,
-piwo,0,Piliated Woodpecker,,,,,,,,,
-rbnu,0,Red-breasted Nuthatch,,,,,,,,,
-revi,1,Red-eyed Virio,,,,,,,,,
-rsha,0,Red-shouldered Hawk,,,,,,,,,
-rthu,0,Ruby-throated Hummingbird,,,,,,,,,
-rwbl,0,Red-winged Blackbird,,,,,,,,,
-scta,1,Scarlet Tanager,,,,,,,,,
-sosp,1,Song Sparrow,,,,,,,,,
-tuti,1,Eastern Tufted Titmouse,,,,,,,,,
-wbnu,1,White-breasted Nuthatch,,,,,,,,,
-woth,1,Wood Thrush,,,,,,,,,
-ysfl,0,Yellow-shafted Flicker,,,,,,,,,
+alpha,latin,common,nest_min,nest_max,nest_mean,nest_se,nest_n,nest_ref,nest_type,nest_loc,nest_note,summer_flock,broods,Inc_period_min,Inc_period_max,Nestling_period_min,Nestling_period_max,Clutch_min,Clutch_max,Brood_min,Brood_max,
+acfl,Empidonax virescens ,Acadian Flycatcher,1.07,16.76,4.06,,138,Walkinshaw 1966,cup,Tree-branch,NA,N,double,13,15,13,15,1,4,1,2,
+amcr,Corvus brachyrhynchos ,American Crow,3.7,30,10.6,,50,Clapp and Banks 1993,cup,Tree-branch,NA,Y,single,16,18,20,40,3,9,1,2,
+amgo,Spinus tristis ,American Goldfinch,0.6,2.92,1.39,,102,Holcomb 1969,cup,Shrub,NA,N,single,12,14,11,17,2,7,1,2,
+amro,Turdus migratorius ,American Robin,0.5,32,3.6,,257,BNA,cup,Tree-branch,NA,Y,multiple,12,14,13,13,3,5,1,3,
+baor,Icterus galbula ,Baltimore Oriole,4.5,22,11.21,,63,Graf and Greeley 1976,cup,Tree-branch,NA,N,single,11,14,11,14,3,7,1,1,
+bars,Hirundo rustica ,Barn Swallow,0.3,30,2.95,,2563,Campbell et al. 1997,cup,Building,"Not really mean, average of nests between 2.4 and 3.5m that comprised 57% of found nests",Y,double,12,17,15,27,3,7,1,2,
+bggn,Polioptila caerulea ,Blue-gray Gnatcatcher,0.8,24.4,8.5,,557,BNA,cup,Tree-branch,NA,N,single,11,15,10,15,3,5,1,2,
+bhco,Molothrus ater ,Brown-headed Cowbird,NA,NA,NA,,NA,BNA,cup,Generalist,"Of course, bhco",Y,multiple,10,12,8,13,1,7,NA,40,"*Note! 40 total, not per clutch"
+blja,Cyanocitta cristata ,Blue Jay,1.37,7.62,4,,19,Taylor 1965,cup,Tree-branch,Range of this is less than BNA,Y,double,17,18,17,21,2,7,1,1,
+brth,Toxostoma rufum ,Brown Thrasher,0,2.1,1.8,,37,BNA,cup,Shrub,Average based on Partin 1977,N,double,10,14,9,13,2,6,1,2,
+cach,Poecile carolinensis ,Carolina Chickadee,0.7,7.6,3.4,,55,Albano 1992,cavity,Tree-trunk,NA,N,single,12,15,16,19,3,10,1,1,
+carw,Thryothorus ludovicianus ,Carolina Wren,NA,NA,NA,,NA,BNA,Cup-cavity,Shrub-building,"Nest heights highly variable, depending on substrate",N,multiple,12,16,10,16,3,7,1,3,
+cedw,Bombycilla cedrorum ,Cedar Waxwing,1.1,15.2,2.59,,24,BNA,cup,Tree-branch,"Provided mean height is actually the median, reported from Mountjoy 1987",Y,single,11,13,14,18,2,6,1,2,
+chsp,Spizella passerina ,Chipping Sparrow,0.5,10,2.6,,224,BNA,cup,Tree-shrub,NA,N,double,10,15,9,12,2,7,1,3,
+cogr,Quiscalus quiscula ,Common Grackle,0.2,22,2.5,,2601,BNA,cup,Tree-shrub,NA,Y,double,11,15,10,17,1,7,1,2,
+coye,Geothlypis trichas ,Common Yellowthroat,0,0.1,0,,NA,BNA,cup,Ground,"Ground-nester, no specific nest height data gathered",N,double,12,12,12,12,1,6,1,2,
+dowo,Picoides pubescens ,Downy Woodpecker,1,11.6,4.74,NA,19,Conner et al. 1975,cavity,Tree-trunk,Conner used because sites were from Virginia,N,single,12,12,18,21,3,8,1,1,
+eabl,Sialia sialis ,Eastern Bluebird,0.5,4,1.5,,NA,BNA,cavity,Tree-Nestbox,These are the heights of artificial cavities,N,multiple,11,19,17,21,2,7,1,3,
+eato,Pipilo erythrophthalmus ,Eastern Towhee,0,5.5,0,,NA,BNA,cup,Ground-shrub,Almost all sites in nearby New Jersey were ground. Not true mean,N,double,12,13,10,12,2,6,1,3,
+eawp,Contopus virens ,Eastern Wood-Pewee,1.2,21.4,8.6,,NA,BNA,cup,Tree-branch,"Nest card data, no sample size provided.",N,single,12,14,16,18,2,4,1,1,
+ficr,Corvus ossifragus ,Fish Crow,1.8,24.4,8.6,,160,BNA,cup,Tree-branch,NA,Y,single,16,19,32,40,2,6,1,1,
+gcfl,Myiarchus crinitus ,Great Crested Flycatcher,0,21.3,8.5,,13,BNA,cavity,Tree-trunk,"Range provided by BNA, mean from Stauffer and Best 1980, though this study evaluated riparian habitat",N,single,13,15,13,15,4,8,1,1,
+grca,Dumetella carolinensis ,Gray Catbird,0.3,15,1.5,,53,BNA,cup,Shrub,NA,N,double,12,15,10,11,1,6,2,3,
+hawo,Picoides villosus ,Hairy Woodpecker,2.4,19.8,8.8,NA,10,Conner et al. 1975,cavity,Tree-trunk,Conner used because sites were from Virginia,N,single,11,12,28,30,3,6,1,1,
+hofi,Haemorhous mexicanus ,House Finch,1,20,4.78,,278,BNA,cup,Tree-branch,NA,N,multiple,13,14,12,19,2,6,1,6,
+howr,Troglodytes aedon ,House Wren,NA,NA,9,4.33*,115,Li and Martin 1991,cavity,Tree-nestbox,No nest height info in BNA,N,double,9,16,15,17,3,10,1,2,
+inbu,Passerina cyanea ,Indigo Bunting,0.3,1,0.65,NA,NA,BNA,cup,shrub,"No nest data, mean is average of low and high",N,double,11,14,8,14,3,4,1,3,
+modo,Zenaida macroura ,Mourning Dove,0,24,1.5,NA,44,"BNA, Westmoreland and Best 1985",cup,Ground-tree-branch-shrub,"Range and mean come from different data sources. I assume that the BNA range given was a typo (up to 80 m!), assuming they meant ft, converted.",Y,multiple,14,14,12,15,2,2,1,6,
+noca,Cardinalis cardinalis ,Northern Cardinal,0.7,12,2.1,1.6,121,Fillieater et al. 1994,cup,Shrub-tree,NA,N,multiple,11,13,7,13,2,5,1,2,
+nomo,Mimus polyglottos ,Northern Mockingbird,0.3,14.6,2.4,0.01*,493,Means and Goertz 1983,,Shrub-tree-branch,NA,N,multiple,12,13,12,13,2,6,2,3,
+nopa,Setophaga americana ,Northern Parula,1.6,16.5,4.6,NA,71,BNA,cup,Tree-branch,Mean is the average of the statement “most (22) between 3.1 and 6.1 m and more than half (38) between 3.0 and 6.1 m (Cruickshank 1956).”,N,single,12,14,10,11,2,7,1,2,
+oror,Icterus spurius ,Orchard Oriole,11,20,11.7,1.1,NA,BNA,cup,Tree-branch,Mean and range from 2 different sources,N,double,12,14,14,14,4,6,1,2,
+oven,Seiurus aurocapilla ,Ovenbird,0,0,0,0,NA,BNA,cup,Ground,"Ground nester, no quantitative measurement of height",N,single,11,14,7,10,3,6,1,2,
+piwo,Dryocopus pileatus ,Piliated Woodpecker,5.5,19.2,12.24,NA,18,Campbell et al. 1997,cavity,Tree-trunk,Conner used because sites were from Virginia,N,single,15,18,24,28,3,5,1,1,
+rbnu,Sitta canadensis ,Red-breasted Nuthatch,0.7,31.9,10.2,0.32,263,BNA,cavity,Tree-trunk,NA,N,single,12,13,18,21,2,8,1,1,
+revi,Vireo olivaceus,Red-eyed Vireo,0.4,19,3.4,NA,NA,BNA,cup,Tree-branch,Mean is the average of the means found in 4 studies,N,single,11,15,10,12,1,5,1,2,
+rsha,Buteo lineatus ,Red-shouldered Hawk,8.5,20.3,13.4,3,10,Titus and Mosher 1981,cup,Tree-branch,NA,N,single,32,40,42,49,2,5,1,1,
+rthu,Archilochus colubris ,Ruby-throated Hummingbird,0.5,15,6,NA,NA,BNA,cup,Tree-branch,Mean is the average of the provided range of average heights,N,double,12,14,18,22,1,3,1,2,
+rwbl,Agelaius phoeniceus ,Red-winged Blackbird,0.065,0.18,0.112,NA,228,Holcomb and Twiest 1968,cup,Shrub,NA,N,double,11,13,11,14,2,4,1,2,
+scta,Piranga olivacea ,Scarlet Tanager,2.4,21,7.8,NA,17,Peck and James 1987,cup,Tree-branch,Study used because Maryland,N,single,12,14,9,15,3,5,1,1,
+sosp,Melospiza melodia,Song Sparrow,0,4,0,NA,NA,BNA,cup,Ground,"Not really mean, mostly nests on ground",N,multiple,12,15,9,12,1,6,1,7,
+tuti,Baeolophus bicolor ,Eastern Tufted Titmouse,6,20,12,NA,NA,Pielou 1957,cavity,Tree-trunk,Little info given on nest height,N,single,12,14,15,16,3,9,1,1,
+wbnu,Sitta carolinensis ,White-breasted Nuthatch,5,20,7.2,3.1,9,Stauffer and Best 1082,cavity,Tree-trunk,nest height range from Bent 1948,N,single,13,14,26,26,5,9,1,1,
+woth,Hylocichla mustelina ,Wood Thrush,0.6,22.3,4,3.6,NA,BNA,cup,Tree-branch,sample size not given,N,double,12,15,12,15,3,4,1,2,
+ysfl,Colaptes auratus,Yellow-shafted Flicker,2.7,21.9,12.28,NA,22,Conner et al. 1975,cavity,Tree-trunk,Conner used because sites were from Virginia,N,single,,,,,,,,,
