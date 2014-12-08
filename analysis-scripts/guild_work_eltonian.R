@@ -1,6 +1,6 @@
 # Prep guild file
 
-setwd('/Users/bsevans/gits/Community_analysis/guild_data')
+setwd('Community_analysis/guild_data')
 
 list.files()
 
@@ -67,13 +67,10 @@ d$English = factor(d$English)
 
 g = merge(nest, d, by.x = 'common',by.y = 'English', all = F)
 
-# Remove a few unnecessary columns:
-
-names(g)
-
 # Change Nest location categories:
-g$nest_loc[1] <- 'Tree'
 g$nest_loc = as.character(g$nest_loc)
+g$nest_loc[1] <- 'Tree'
+
 
 gsub(g$nest_loc[i], 'Tree-branch', 'Tree')
 
@@ -85,18 +82,29 @@ for(i in 1:length(g[,1])){
 }
 
 g$nest_loc = tolower(g$nest_loc)
-g$nest_loc = factor
+g$nest_loc = factor(g$nest_loc)
 
-for(i in 1:length(g[,1])){
-  if (g$nest_loc[i] == 'Tree-branch') gsub('Tree-branch', 'Tree',g$nest_loc[i])
-}
+# There's one blank nest type:
 
-# Remove a few unnecessary columns:
+g[g$nest_type =='','nest_type']<-'cup'
+
+# Some of the diet and foraging columns have no values, remove fields:
+
+summary(g)
+names(g)
+
+g = g[,-c(24,31,32)]
+
+# Reset the factor levels for 5-category dietary guilds:
+
+g$Diet.5Cat = factor(g$Diet.5Cat)
 
 
-hist(g$Inc_period_min)
+# Write cleaned guild data to file:
 
-g = g[,-c(31:32)]
+write.csv(g, 'guild_eltonian.csv', row.names = F)
+
+#################################################################
 
 nest_timeMin = g$Inc_period_min +  g$Nestling_period_min
 
