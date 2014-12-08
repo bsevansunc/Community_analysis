@@ -107,3 +107,7 @@ enw.df$enw = 1-enw
 
 enw.df[order(enw.df$enw),]
 
+# Write file:
+
+write.csv(enw.df, 'eltonian_niche_width.csv', row.names = F)
+
