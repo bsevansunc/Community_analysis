@@ -24,20 +24,17 @@ mg1 = merge(ge_names, gg, by.x = 'common', by.y = 'CommonName', all = F)
 
 mg2 = mg1[,c(2,14,15,17,20,25,28)]
 
-# Scale niche breadth values to between 0 and 1:
+# Function for percentile rank
 
-scale01Fun = function(x){
-  x2 = na.omit(x)
-  (x-min(x2))/(max(x2)-min(x2))
-}
+pRank <- function(x) trunc(rank(x))/length(x)
 
-mg2$Brange = 1-scale01Fun(mg2$Brange_Area_km2)
+mg2$Brange = 1-pRank(mg2$Brange_Area_km2)
 
-mg2$LNB = 1-scale01Fun(mg2$new_Im)
+mg2$LNB = 1-pRank(mg2$new_Im)
 
-mg2$RNB = 1-scale01Fun(mg2$Tol)
+mg2$RNB = 1-pRank(mg2$Tol)
 
-mg2$BiomeH = 1-scale01Fun(mg2$BiomeH_noMex)
+mg2$BiomeH = 1-pRank(mg2$BiomeH_noMex)
 
 # Remove unnecessary columns:
 
@@ -51,7 +48,7 @@ names(mg2)[2] <- 'trend'
 
 mg2$gnw = rowSums(mg2[,3:6])
 
-mg2$gnw = scale01Fun(mg2$gnw)
+mg2$gnw = pRank(mg2$gnw)
 
 # Check out the results!
 
@@ -71,4 +68,10 @@ enw = read.csv('eltonian_niche_width.csv')
 
 mg3 = merge(enw, mg2, by.x  = 'sp', by.y = 'alpha')
 
+mg3$nw = pRank(mg3$enw + mg3$gnw)
 
+mg3[order(mg3$nw),]
+
+# Write to file:
+
+write.csv(mg3, 'niche_width.csv', row.names = F)
