@@ -2,18 +2,17 @@ library(vegan)
 
 ge = read.csv('guild_eltonian.csv')
 
-scale01Fun = function(x){
-  x2 = na.omit(x)
-  (x-min(x2))/(max(x2)-min(x2))
-}
-
-# Add min and max nest height data for the Carolina (report from All About Birds):
+# Add min and max nest height data for the Carolina Wren (report from All About Birds):
 
 ge[ge$alpha == 'carw',4:5]<-c(0,2)
 
+# Remove the red-shouldered hawk:
+
+ge = ge[ge$alpha!='rsha',]
+
 # Diet diversity
 
-diet = data.frame(row.names = ge[,2], ge[,20:28] )
+diet = data.frame(row.names = ge[,2], ge[,20:28])
 
 diet.div = diversity(diet)
 
@@ -35,77 +34,83 @@ fs$div = fs.div
 
 fs$even = fs.even
 
-# Scaled diet and foraging strata evenness
-
-diet.even = scale01Fun(diet.even)
-fs.even = scale01Fun(fs.even)
-
 # Nest height variation (alas, diversity or evenness not possible with the available data):
 
 varHeight = ge$nest_max - ge$nest_min
-
-nHeight_var = varHeight/max(na.omit(varHeight))
-
-nHeight_var = scale01Fun(varHeight)
 
 # Variation in incubation time:
 
 inc_var = ge$Inc_period_max - ge$Inc_period_min
 
-inc_var = scale01Fun(inc_var)
-
 # Variation in nestling time:
 
 nestling_var = ge$Nestling_period_max - ge$Nestling_period_min
-
-nestling_var = scale01Fun(nestling_var)
 
 # Variation in clutch size:
 
 clutch_var = ge$Clutch_max - ge$Clutch_min
 
-clutch_var = scale01Fun(clutch_var)
-
 # Variation in broods per year:
 
-brood_var = ge$Brood_max - ge$Brood_min
-
-brood_var = scale01Fun(brood_var)
-
-# Summarizing nesting:
-
-breeding_var = numeric()
-for(i in 1:length(ge[,1])){
- breeding_var[i] = sum(inc_var[i], nestling_var[i],
-                       clutch_var[i], brood_var[i]) 
-}
-
-breeding_var = scale01Fun(breeding_var)
+brood_var = ge$Brood_max
 
 # Summarizing Eltonian niche width:
 
-enw.df = data.frame(sp = ge$alpha, diet.even, fs.even, nHeight_var, 
-           breeding_var)
+enw.df = data.frame(sp = ge$alpha, dietEven = diet.even, 
+                    fsEven = fs.even, varHeight, 
+                    inc_var, nestling_var, clutch_var, brood_var)
 
-# Because bhco is a nest parasite (with up to 40 broods per year, I will give an nHeight and breeding var of 1):
+# Because bhco is a nest parasite (with up to 40 broods per year, I will give an nHeight and breeding var of 0):
 
-enw.df[enw.df$sp == 'bhco',4:5]<- c(1,1)
+enw.df[enw.df$sp == 'bhco',c(4,8)]<- c(max(na.omit(enw.df$varHeight)),max(na.omit(enw.df$brood_var)))
+
+# Dobkon et al. 1995 says that House Wren exhibit 11.5 m range in nest height:
+
+enw.df[enw.df$sp == 'howr',4]<-11.5
+
+# Convert to percentiles:
+
+pRank <- function(x) trunc(rank(x))/length(x)
+
+enwP.df = enw.df
+for (i in 2:length(enw.df)){
+  enwP.df[,i] = 1-pRank(enw.df[,i])
+}
+
+enwP.df$breeding_var = pRank(rowSums(enwP.df[,5:8]))
+
+# Remove specific breeding info:
+
+enwP.df = enwP.df[,-c(5:8)]
 
 # Come up with a single index of niche width:
 
-enw = rowMeans(enw.df[,2:5], na.rm = T)
+enwP.df$enw1 = pRank(rowSums(enwP.df[,2:5]))
 
-enw = scale01Fun(enw)
+enwP.df[order(enwP.df$enw1),]
 
-enw.df$enw = enw
+# Change to "1 - ..." so 0 represents the most generalist:
 
-# Change enw so that 0 represents generalists:
+for(i in 2:length(enwP.df)){
+  enwP.df[,i] = 1 - enwP.df[,i]
+}
 
-enw.df$enw = 1-enw
+# Come up with a single index of niche width:
+
+enw.df$enw1 = rowSums(enw.df[,2:5])
 
 # Take a look!
 
-enw.df[order(enw.df$enw),]
+enw.df[order(enw.df$enw1),]
+
+# Scaled diet and foraging strata evenness (so 0's are generalist, recorded as: 1 -)
+
+diet.even = 1-pRank(diet.even)
+fs.even = 1-pRank(fs.even)
+
+nHeight_var = 1- pRank(varHeight)
+
+
 
 # Write file:
 
