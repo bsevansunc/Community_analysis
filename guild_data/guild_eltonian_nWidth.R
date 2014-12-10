@@ -32,23 +32,23 @@ varHeight = ge$nest_max - ge$nest_min
 
 # Minimum incubation time:
 
-inc_min = ge$Inc_period_min
+inc_min = ge$Inc_period_min # Lower values represent generalist
 
 # Minimum nestling time:
 
-nestling_min = ge$Nestling_period_min
+nestling_min = ge$Nestling_period_min # Lower values should represent generalist
 
 # Maximum clutch size:
 
-clutch_max = ge$Clutch_max
+clutch_max = ge$Clutch_max # Higher values represent generalist
 
 # Maximum number of broods per year:
 
-brood_max = ge$Brood_max
+brood_max = ge$Brood_max # Higher values represent generalist 
 
 # Maximum number of offspring per year
 
-offspring_max = clutch_max*brood_max
+offspring_max = clutch_max*brood_max # Higher values represent generalist
 
 # Summarizing Eltonian niche width:
 
