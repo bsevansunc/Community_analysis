@@ -60,18 +60,6 @@ mg2 = mg2[,-2]
 
 # Write the file:
 
-write.csv(mg2, 'guild_grinnelian.csv', row.names = F)
+write.csv(mg2, 'grinnelian_niche_width.csv', row.names = F)
 
-# Get eltonian niche width file, merge them:
 
-enw = read.csv('eltonian_niche_width.csv')
-
-mg3 = merge(enw, mg2, by.x  = 'sp', by.y = 'alpha')
-
-mg3$nw = pRank(mg3$enw + mg3$gnw)
-
-mg3[order(mg3$nw),]
-
-# Write to file:
-
-write.csv(mg3, 'niche_width.csv', row.names = F)
