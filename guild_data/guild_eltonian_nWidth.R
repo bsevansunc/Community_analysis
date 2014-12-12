@@ -81,5 +81,5 @@ enwP.df[order(enwP.df$enw),]
 
 # Write file:
 
-write.csv(enwP.df, 'eltonian_niche_width.csv', row.names = F)
+write.csv(enwP.df, 'guild_data/eltonian_niche_width.csv', row.names = F)
 
