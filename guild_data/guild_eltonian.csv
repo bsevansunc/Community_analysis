@@ -6,8 +6,8 @@
 "Baltimore Oriole","baor","Icterus galbula ",4.5,22,11.21,"cup","tree","N","single",11,14,11,14,3,7,1,1,"Icterus galbula",60,0,0,0,0,20,20,0,0,"Invertebrate",30,10,20,40,0,32.83
 "Barn Swallow","bars","Hirundo rustica ",0.3,30,2.95,"cup","building","Y","double",12,17,15,27,3,7,1,2,"Hirundo rustica",80,0,0,0,0,10,0,10,0,"Invertebrate",30,30,40,0,0,17.91
 "Blue-gray Gnatcatcher","bggn","Polioptila caerulea ",0.8,24.4,8.5,"cup","tree","N","single",11,15,10,15,3,5,1,2,"Polioptila caerulea",100,0,0,0,0,0,0,0,0,"Invertebrate",0,50,50,0,0,5.8
-"Blue Jay","blja","Cyanocitta cristata ",1.37,7.62,4,"cup","tree","Y","double",17,18,17,21,2,7,1,1,"Cyanocitta cristata",20,10,10,0,0,20,0,40,0,"Omnivore",40,20,20,20,0,88
 "Brown-headed Cowbird","bhco","Molothrus ater ",NA,NA,NA,"cup","generalist","Y","multiple",10,12,8,13,1,7,NA,40,"Molothrus ater",40,0,0,0,0,0,0,60,0,"PlantSeed",80,10,10,0,0,40.26
+"Blue Jay","blja","Cyanocitta cristata ",1.37,7.62,4,"cup","tree","Y","double",17,18,17,21,2,7,1,1,"Cyanocitta cristata",20,10,10,0,0,20,0,40,0,"Omnivore",40,20,20,20,0,88
 "Brown Thrasher","brth","Toxostoma rufum ",0,2.1,1.8,"cup","shrub","N","double",10,14,9,13,2,6,1,2,"Toxostoma rufum",50,0,0,0,0,30,0,20,0,"Omnivore",80,20,0,0,0,68.8
 "Carolina Chickadee","cach","Poecile carolinensis ",0.7,7.6,3.4,"cavity","tree","N","single",12,15,16,19,3,10,1,1,"Parus carolinensis",60,0,0,0,0,0,0,40,0,"Invertebrate",0,50,50,0,0,9.99
 "Carolina Wren","carw","Thryothorus ludovicianus ",NA,NA,NA,"Cup-cavity","shrub-building","N","multiple",12,16,10,16,3,7,1,3,"Thryothorus ludovicianus",60,0,20,0,0,10,0,10,0,"Invertebrate",40,40,20,0,0,18.96
@@ -17,12 +17,12 @@
 "Common Yellowthroat","coye","Geothlypis trichas ",0,0.1,0,"cup","ground","N","double",12,12,12,12,1,6,1,2,"Geothlypis trichas",100,0,0,0,0,0,0,0,0,"Invertebrate",0,80,20,0,0,9.54
 "Downy Woodpecker","dowo","Picoides pubescens ",1,11.6,4.74,"cavity","tree","N","single",12,12,18,21,3,8,1,1,"Picoides pubescens",80,0,0,0,0,10,0,10,0,"Invertebrate",0,20,40,40,0,25.55
 "Eastern Bluebird","eabl","Sialia sialis ",0.5,4,1.5,"cavity","tree-nestbox","N","multiple",11,19,17,21,2,7,1,3,"Sialia sialis",70,0,0,0,0,30,0,0,0,"Invertebrate",100,0,0,0,0,27.5
+"Eastern Phoebe","eaph","Sayornis phoebe",1,5,3,"cup","building","N","double",15,16,16,20,1,4,1,2,"Sayornis phoebe",90,0,0,0,0,10,0,0,0,"Invertebrate",0,50,50,0,0,19.7
 "Eastern Towhee","eato","Pipilo erythrophthalmus ",0,5.5,0,"cup","ground-shrub","N","double",12,13,10,12,2,6,1,3,"Pipilo erythrophthalmus",30,0,0,0,0,30,0,40,0,"Omnivore",80,20,0,0,0,40.03
-"Eastern Tufted Titmouse","tuti","Baeolophus bicolor ",6,20,12,"cavity","tree","N","single",12,14,15,16,3,9,1,1,"Baeolophus bicolor",60,0,0,0,0,0,0,40,0,"Invertebrate",20,20,40,20,0,21.6
 "Eastern Wood-Pewee","eawp","Contopus virens ",1.2,21.4,8.6,"cup","tree","N","single",12,14,16,18,2,4,1,1,"Contopus virens",90,0,0,0,0,10,0,0,0,"Invertebrate",33,33,33,0,0,13.9
 "Fish Crow","ficr","Corvus ossifragus ",1.8,24.4,8.6,"cup","tree","Y","single",16,19,32,40,2,6,1,1,"Corvus ossifragus",30,10,0,0,20,20,0,20,0,"Omnivore",90,10,0,0,0,284.6
-"Gray Catbird","grca","Dumetella carolinensis ",0.3,15,1.5,"cup","shrub","N","double",12,15,10,11,1,6,2,3,"Dumetella carolinensis",60,0,0,0,0,40,0,0,0,"Invertebrate",0,80,20,0,0,35.3
 "Great Crested Flycatcher","gcfl","Myiarchus crinitus ",0,21.3,8.5,"cavity","tree","N","single",13,15,13,15,4,8,1,1,"Myiarchus crinitus",60,0,0,0,0,40,0,0,0,"Invertebrate",100,0,0,0,0,32.1
+"Gray Catbird","grca","Dumetella carolinensis ",0.3,15,1.5,"cup","shrub","N","double",12,15,10,11,1,6,2,3,"Dumetella carolinensis",60,0,0,0,0,40,0,0,0,"Invertebrate",0,80,20,0,0,35.3
 "Hairy Woodpecker","hawo","Picoides villosus ",2.4,19.8,8.8,"cavity","tree","N","single",11,12,28,30,3,6,1,1,"Picoides villosus",70,0,0,0,0,10,10,10,0,"Invertebrate",20,30,50,0,0,62.65
 "House Finch","hofi","Haemorhous mexicanus ",1,20,4.78,"cup","tree","N","multiple",13,14,12,19,2,6,1,6,"Carpodacus mexicanus",10,0,0,0,0,30,0,30,30,"PlantSeed",33,33,33,0,0,21.4
 "House Wren","howr","Troglodytes aedon ",NA,NA,9,"cavity","tree-nestbox","N","double",9,16,15,17,3,10,1,2,"Troglodytes aedon",80,0,0,0,0,0,0,0,20,"Invertebrate",0,100,0,0,0,10.85
@@ -35,12 +35,14 @@
 "Ovenbird","oven","Seiurus aurocapilla ",0,0,0,"cup","ground","N","single",11,14,7,10,3,6,1,2,"Seiurus aurocapilla",70,0,10,0,0,10,0,10,0,"Invertebrate",80,20,0,0,0,18.8
 "Piliated Woodpecker","piwo","Dryocopus pileatus ",5.5,19.2,12.24,"cavity","tree","N","single",15,18,24,28,3,5,1,1,"Dryocopus pileatus",70,0,0,0,0,20,0,10,0,"Invertebrate",20,30,30,20,0,286.59
 "Red-breasted Nuthatch","rbnu","Sitta canadensis ",0.7,31.9,10.2,"cavity","tree","N","single",12,13,18,21,2,8,1,1,"Sitta canadensis",50,0,0,0,0,0,0,50,0,"Omnivore",0,33,33,33,0,9.8
+"Red-bellied Woodpecker","rbwo","Melanerpes carolinus",2,18,7.6,"cavity","tree","N","double",12,12,24,27,2,6,1,3,"Melanerpes carolinus",30,10,10,0,0,0,20,10,20,"Omnivore",0,0,20,60,20,69.5
 "Red-eyed Vireo","revi","Vireo olivaceus",0.4,19,3.4,"cup","tree","N","single",11,15,10,12,1,5,1,2,"Vireo olivaceus",60,0,0,0,0,20,0,20,0,"Invertebrate",0,0,20,80,0,16.06
 "Red-shouldered Hawk","rsha","Buteo lineatus ",8.5,20.3,13.4,"cup","tree","N","single",32,40,42,49,2,5,1,1,"Buteo lineatus",20,40,40,0,0,0,0,0,0,"VertFishScav",33,33,33,0,0,603.72
-"Red-winged Blackbird","rwbl","Agelaius phoeniceus ",0.065,0.18,0.112,"cup","shrub","N","double",11,13,11,14,2,4,1,2,"Agelaius phoeniceus",50,0,0,0,0,0,0,50,0,"Omnivore",90,10,0,0,0,50.78
 "Ruby-throated Hummingbird","rthu","Archilochus colubris ",0.5,15,6,"cup","tree","N","double",12,14,18,22,1,3,1,2,"Archilochus colubris",40,0,0,0,0,0,60,0,0,"FruiNect",0,40,40,0,20,3.09
+"Red-winged Blackbird","rwbl","Agelaius phoeniceus ",0.065,0.18,0.112,"cup","shrub","N","double",11,13,11,14,2,4,1,2,"Agelaius phoeniceus",50,0,0,0,0,0,0,50,0,"Omnivore",90,10,0,0,0,50.78
 "Scarlet Tanager","scta","Piranga olivacea ",2.4,21,7.8,"cup","tree","N","single",12,14,9,15,3,5,1,1,"Piranga olivacea",80,0,0,0,0,10,0,0,10,"Invertebrate",10,10,40,40,0,28.2
 "Song Sparrow","sosp","Melospiza melodia",0,4,0,"cup","ground","N","multiple",12,15,9,12,1,6,1,7,"Melospiza melodia",40,0,0,0,0,30,0,30,0,"Omnivore",70,30,0,0,0,21.91
+"Eastern Tufted Titmouse","tuti","Baeolophus bicolor ",6,20,12,"cavity","tree","N","single",12,14,15,16,3,9,1,1,"Baeolophus bicolor",60,0,0,0,0,0,0,40,0,"Invertebrate",20,20,40,20,0,21.6
 "White-breasted Nuthatch","wbnu","Sitta carolinensis ",5,20,7.2,"cavity","tree","N","single",13,14,26,26,5,9,1,1,"Sitta carolinensis",50,0,0,0,0,0,0,50,0,"Omnivore",0,33,33,33,0,21
 "Wood Thrush","woth","Hylocichla mustelina ",0.6,22.3,4,"cup","tree","N","double",12,15,12,15,3,4,1,2,"Hylocichla mustelina",60,0,0,0,0,40,0,0,0,"Invertebrate",80,20,0,0,0,50.09
 "Yellow-shafted Flicker","ysfl","Colaptes auratus",2.7,21.9,12.28,"cavity","tree","N","single",11,13,24,27,5,8,1,1,"Colaptes auratus",70,0,0,0,0,20,0,10,0,"Invertebrate",100,0,0,0,0,131.46
