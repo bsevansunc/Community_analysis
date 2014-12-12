@@ -4,28 +4,28 @@
 
 # Get data:
 
-gnw = read.csv('grinnelian_niche_width.csv')
-enw = read.csv('eltonian_niche_width.csv')
+gnw = read.csv('guild_data/grinnelian_niche_width.csv')
+enw = read.csv('guild_data/eltonian_niche_width.csv')
 
 # Merge files:
 
 mg1 = merge(enw, gnw, by.x  = 'sp', by.y = 'alpha')
 
-mg3$nw = pRank(mg3$enw + mg3$gnw)
+mg1$nw = pRank(mg1$enw + mg1$gnw)
 
-mg3[order(mg3$nw),]
+mg1[order(mg1$nw),]
 
 # Write to file:
 
-write.csv(mg3, 'niche_width.csv', row.names = F)
+write.csv(mg1, 'guild_data/niche_width.csv', row.names = F)
 
 #---------------------------------------------------------------------------------*
 # ---- Combined guild files ----
 #=================================================================================*
 
-gg = read.csv('guild_grinnelian_raw.csv')
+gg = read.csv('guild_data/guild_grinnelian_raw.csv')
 
-ge = read.csv('guild_eltonian.csv')
+ge = read.csv('guild_data/guild_eltonian.csv')
 
 # Dealing with naming problems!
 
