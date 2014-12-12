@@ -1,6 +1,6 @@
 # Prep guild file
 
-setwd('Community_analysis/guild_data')
+setwd('~/Community_analysis/guild_data')
 
 list.files()
 
@@ -99,6 +99,33 @@ g = g[,-c(24,31,32)]
 
 g$Diet.5Cat = factor(g$Diet.5Cat)
 
+# Missing info on the Eastern Phoebe!
+
+eaph = data.frame(common = 'Eastern Phoebe', alpha = 'eaph', latin = 'Sayornis phoebe',
+                  nest_min = 1, nest_max = 5, nest_mean = 3, nest_type = 'cup', 
+                  nest_loc = 'building', summer_flock = 'N',
+                  broods = 'double', 15, 16, 16, 20, 1, 4, 1, 2, 'Sayornis phoebe',
+                  90, 0,0,0,0,10,0,0,0,'Invertebrate',
+                  0,50,50,0,0,19.7)
+
+names(eaph) = names(g)
+
+g = rbind(g, eaph)
+
+# Missing info on the Red-bellied Woodpecker!
+
+rbwo = data.frame(common = 'Red-bellied Woodpecker', alpha = 'rbwo', latin = 'Melanerpes carolinus',
+                  nest_min = 2, nest_max = 18, nest_mean = 7.6, nest_type = 'cavity', 
+                  nest_loc = 'tree', summer_flock = 'N',
+                  broods = 'double', 12, 12, 24, 27, 2, 6, 1, 3, 'Melanerpes carolinus',
+                  30, 10,10,0,0,0,20,10,20,'Omnivore',
+                  0,0,20,60,20,69.5)
+
+names(rbwo) = names(g)
+
+g = rbind(g, rbwo)
+
+g = g[order(as.character(g$alpha)),]
 
 # Write cleaned guild data to file:
 
